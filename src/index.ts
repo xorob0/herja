@@ -49,8 +49,16 @@ export const listenForEntity: <T>(entity: HassEntity, callback: (event: stateCha
 
 export const onEntitiesState: <T>(entitiesState: {entity: HassEntity, state: number|boolean|string}[], callback: (event: stateChangeEvent<T>) => void) => void = (entitiesState, callback) =>{
   entitiesState.forEach(({entity, state}) => {
-    stateListener(event => {
-      if(event.data.entity_id === entity.entity_id)
+    listenForEntity(entity, event => {
+      const isAllEntitiesCorrect = entitiesState.reduce((isCorrect, {entity, state})=>{
+        if(!isCorrect)
+          return false
+        if(entity.entity_id === event.data.entity_id && state === event.data.new_state.state)
+          return true
+        return shadowState[entity.entity_id].state === state;
+      }, true)
+
+      if(isAllEntitiesCorrect)
       { // @ts-ignore
         callback(event)
       }
@@ -61,7 +69,6 @@ export const onEntitiesState: <T>(entitiesState: {entity: HassEntity, state: num
 export const listenForEntites: <T>(entities: HassEntity[], callback: (event: stateChangeEvent<T>) => void) => void = (entities, callback) => {
   entities.forEach(entity => listenForEntity(entity, callback))
 }
-
 
 export const configure = async ({
   url,
