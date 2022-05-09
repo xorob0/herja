@@ -9,6 +9,10 @@ export const listenForEntity: <T>(entity_id: string , callback: (event: stateCha
     })
 }
 
+export const listenForEntites: <T>(entities_id: string[], callback: (event: stateChangeEvent<T>) => void) => void = (entities_id, callback) => {
+    entities_id.forEach(entity_id => listenForEntity(entity_id, callback))
+}
+
 export const onEntitiesStates: <T>(entitiesState: {entity_id: string, state: number|boolean|string}[], callback: (event: stateChangeEvent<T>) => void) => void = (entitiesState, callback) =>{
     entitiesState.forEach(({entity_id, state}) => {
         listenForEntity(entity_id, event => {
@@ -28,6 +32,3 @@ export const onEntitiesStates: <T>(entitiesState: {entity_id: string, state: num
     })
 }
 
-export const listenForEntites: <T>(entities_id: string[], callback: (event: stateChangeEvent<T>) => void) => void = (entities_id, callback) => {
-    entities_id.forEach(entity_id => listenForEntity(entity_id, callback))
-}
