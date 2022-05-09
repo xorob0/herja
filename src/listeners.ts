@@ -1,19 +1,25 @@
 import {shadowState, stateChangeEvent, stateListener} from "./connection";
 
-export const listenForEntity: <T>(entity_id: string , callback: (event: stateChangeEvent<T>) => void) => void = (entity_id, callback) =>{
-    stateListener(event => {
-        if(event.data.entity_id === entity_id)
-        { // @ts-ignore
-            callback(event)
-        }
-    })
+export const listenForEntity: <T>(entity_id: string | string[] , callback: (event: stateChangeEvent<T>) => void) => void = (entity_id, callback) =>{
+    if(typeof entity_id === 'string')
+        stateListener(event => {
+            if(event.data.entity_id === entity_id)
+            { // @ts-ignore
+                callback(event)
+            }
+        })
+    else
+        entity_id.forEach(id =>
+            stateListener(event => {
+                if(event.data.entity_id === id)
+                { // @ts-ignore
+                    callback(event)
+                }
+            })
+        )
 }
 
-export const listenForEntites: <T>(entities_id: string[], callback: (event: stateChangeEvent<T>) => void) => void = (entities_id, callback) => {
-    entities_id.forEach(entity_id => listenForEntity(entity_id, callback))
-}
-
-export const onEntitiesStates: <T>(entitiesState: {entity_id: string, state: number|boolean|string}[], callback: (event: stateChangeEvent<T>) => void) => void = (entitiesState, callback) =>{
+export const onEntitiesStates: <T>(entitiesState: {entity_id: string, state: number|boolean|string}[], callback: (event: stateChangeEvent<T>) => void, otherwise: (event: stateChangeEvent<T>) => void) => void = (entitiesState, callback, otherwise) =>{
     entitiesState.forEach(({entity_id, state}) => {
         listenForEntity(entity_id, event => {
             const isAllEntitiesCorrect = entitiesState.reduce((isCorrect, {entity_id, state})=>{
@@ -27,7 +33,8 @@ export const onEntitiesStates: <T>(entitiesState: {entity_id: string, state: num
             if(isAllEntitiesCorrect)
             { // @ts-ignore
                 callback(event)
-            }
+            }else
+                otherwise(event)
         })
     })
 }

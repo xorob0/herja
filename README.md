@@ -19,13 +19,6 @@ listenForEntity("sun.sun", (entity) => {
 })
 ```
 
-### Listen for changes on multiple entities
-```typescript
-listenForEntites(["binary_sensor.garden_door","binary_sensor.entrance_door"] , (entity) => {
-    if(entity.new_state.state === 'on')
-        callService('light', 'turn_on', undefined, 'light.living_room')
-})
-```
 
 ### Describe a set of state and give it a callback
 ```typescript
