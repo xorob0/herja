@@ -1,7 +1,7 @@
 {
   "name": "@homeassistant-node/main",
   "description": "An home assistant library for nodeJS",
-  "version": "0.5.1",
+  "version": "1.0.0",
   "license": "MIT",
   "files": [
     "dist"
@@ -17,8 +17,8 @@
     "url": "https://github.com/xorob0/homeassistant-node"
   },
   "scripts": {
-    "build": "tsup ./src/index.ts --minify --clean --dts --splitting",
-    "dev": "tsup ./src/index.ts --clean --watch src --onSuccess 'npm run basic-sample'",
+    "build": "tsup src/connection.ts --minify --clean --dts --splitting",
+    "dev": "tsup src/connection.ts --clean --watch src --onSuccess 'npm run basic-sample'",
     "lint": "eslint src/**/*.ts",
     "test": "vitest --global test.ts",
     "format": "prettier --write 'src/**/*.{js,ts}'",
