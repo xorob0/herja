@@ -21,7 +21,7 @@ export let shadowState = {} as {[x in string]: HassEntity}
 type stateChangeEvent<T = unknown> = {
   data: {
     entity_id: string;
-    newState: HassEntity
+    new_state: HassEntity
   }
 }
 
