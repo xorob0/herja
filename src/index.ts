@@ -53,7 +53,7 @@ export const configure = async ({
         url,
       );
 
-      const socket = new WebSocket(url, {
+      const socket: WebSocket & {haVersion?: string} = new WebSocket(url, {
         rejectUnauthorized: false,
       });
 
@@ -151,7 +151,8 @@ export const configure = async ({
             socket.removeEventListener('message', handleMessage);
             socket.removeEventListener('close', closeMessage);
             socket.removeEventListener('error', errorMessage);
-            promResolve({ ...socket, haVersion: message.ha_version });
+            socket.haVersion = message.ha_version
+            promResolve(socket);
             break;
 
           default:
