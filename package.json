@@ -17,7 +17,7 @@
     "url": "https://github.com/xorob0/homeassistant-node"
   },
   "scripts": {
-    "build": "tsup src/connection.ts --minify --clean --dts --splitting",
+    "build": "tsup src/index.ts --minify --clean --dts --splitting",
     "dev": "tsup src/connection.ts --clean --watch src --onSuccess 'npm run basic-sample'",
     "lint": "eslint src/**/*.ts",
     "test": "vitest --global test.ts",
