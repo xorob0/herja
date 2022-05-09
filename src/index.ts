@@ -7,7 +7,7 @@ import {
   callService as cs,
   getStates as gs,
   HassServiceTarget,
-  HassEntity, Connection,
+  HassEntity
 } from 'home-assistant-js-websocket';
 
 const MSG_TYPE_AUTH_REQUIRED = 'auth_required';
@@ -16,7 +16,14 @@ const MSG_TYPE_AUTH_OK = 'auth_ok';
 const ERR_CANNOT_CONNECT = 1;
 const ERR_INVALID_AUTH = 2;
 
-const watchedEntities: HassEntity[] = []
+export let shadowState = {} as {[x in string]: HassEntity}
+
+type stateChangeEvent<T = unknown> = {
+  data: {
+    entity_id: string;
+    newState: HassEntity
+  }
+}
 
 export let callService: (
   domain: string,
@@ -26,13 +33,35 @@ export let callService: (
 ) => Promise<unknown> | never = () => {
   throw new Error('Connection was not initialized');
 };
-export let getStates: () => Promise<HassEntity[]> | never = () => {
+
+export let stateListener: <T>(callback: (event: stateChangeEvent<T>) => void) => void = () => {
   throw new Error('Connection was not initialized');
 };
 
-export let stateListener: (callback: (event: unknown) => void) => void = () => {
-  throw new Error('Connection was not initialized');
-};
+export const listenForEntity: <T>(entity: HassEntity, callback: (event: stateChangeEvent<T>) => void) => void = (entity, callback) =>{
+  stateListener(event => {
+    if(event.data.entity_id === entity.entity_id)
+    { // @ts-ignore
+      callback(event)
+    }
+  })
+}
+
+export const onEntitiesState: <T>(entitiesState: {entity: HassEntity, state: number|boolean|string}[], callback: (event: stateChangeEvent<T>) => void) => void = (entitiesState, callback) =>{
+  entitiesState.forEach(({entity, state}) => {
+    stateListener(event => {
+      if(event.data.entity_id === entity.entity_id)
+      { // @ts-ignore
+        callback(event)
+      }
+    })
+  })
+}
+
+export const listenForEntites: <T>(entities: HassEntity[], callback: (event: stateChangeEvent<T>) => void) => void = (entities, callback) => {
+  entities.forEach(entity => listenForEntity(entity, callback))
+}
+
 
 export const configure = async ({
   url,
@@ -185,13 +214,18 @@ export const configure = async ({
   callService = (domain, service, serviceData, target) => {
     return cs(connection, domain, service, serviceData, target);
   };
-  getStates = () => {
-    return gs(connection);
-  };
 
-  stateListener =  (callback: (event: unknown) => void) =>{
+  stateListener =  (callback) =>{
     connection.subscribeEvents(callback , 'state_changed')
   }
+
+  // Init state
+  const states = await gs(connection)
+  shadowState =  states.reduce((acc, entity) => ({...acc, [entity.entity_id]: entity}), {})
+  stateListener(event => {
+    shadowState[event.data.entity_id] = event.data.newState
+  })
+
 
   return connection;
 };
