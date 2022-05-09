@@ -7,7 +7,7 @@ import {
   callService as cs,
   getStates as gs,
   HassServiceTarget,
-  HassEntity,
+  HassEntity, Connection,
 } from 'home-assistant-js-websocket';
 
 const MSG_TYPE_AUTH_REQUIRED = 'auth_required';
@@ -15,6 +15,8 @@ const MSG_TYPE_AUTH_INVALID = 'auth_invalid';
 const MSG_TYPE_AUTH_OK = 'auth_ok';
 const ERR_CANNOT_CONNECT = 1;
 const ERR_INVALID_AUTH = 2;
+
+const watchedEntities: HassEntity[] = []
 
 export let callService: (
   domain: string,
@@ -25,6 +27,10 @@ export let callService: (
   throw new Error('Connection was not initialized');
 };
 export let getStates: () => Promise<HassEntity[]> | never = () => {
+  throw new Error('Connection was not initialized');
+};
+
+export let stateListener: (callback: (event: unknown) => void) => void = () => {
   throw new Error('Connection was not initialized');
 };
 
@@ -182,6 +188,10 @@ export const configure = async ({
   getStates = () => {
     return gs(connection);
   };
+
+  stateListener =  (callback: (event: unknown) => void) =>{
+    connection.subscribeEvents(callback , 'state_changed')
+  }
 
   return connection;
 };
