@@ -6,18 +6,12 @@ export const listenForEntity: <T>(
 ) => void = (entity_id, callback) => {
   if (typeof entity_id === 'string')
     stateListener((event) => {
-      if (event.data.entity_id === entity_id) {
-        // @ts-ignore
-        callback(event);
-      }
+      if (event.data.entity_id === entity_id) callback(event);
     });
   else
     entity_id.forEach((id) =>
       stateListener((event) => {
-        if (event.data.entity_id === id) {
-          // @ts-ignore
-          callback(event);
-        }
+        if (event.data.entity_id === id) callback(event);
       }),
     );
 };
@@ -42,10 +36,8 @@ export const onEntitiesStates: <T>(
         true,
       );
 
-      if (isAllEntitiesCorrect) {
-        // @ts-ignore
-        callback(event);
-      } else otherwise(event);
+      if (isAllEntitiesCorrect) callback(event);
+      else otherwise(event);
     });
   });
 };
