@@ -10,7 +10,7 @@ const base = async () => {
     });
     connection.subscribeEvents(
         (event) => {
-            if(event.data.entity_id === "binary_sensor.garden_door_contact" && event.data.new_state === 'on'){
+            if(event.data.entity_id === "binary_sensor.garden_door_contact" && event.data.new_state.state === 'on'){
                 console.log('Garden door was opened, turning on garden light')
                 callService('light', 'turn_on', undefined, {entity_id: 'light.garden'})
             }
