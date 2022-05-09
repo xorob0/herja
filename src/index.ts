@@ -223,7 +223,7 @@ export const configure = async ({
   const states = await gs(connection)
   shadowState =  states.reduce((acc, entity) => ({...acc, [entity.entity_id]: entity}), {})
   stateListener(event => {
-    shadowState[event.data.entity_id] = event.data.newState
+    shadowState[event.data.entity_id] = event.data.new_state
   })
 
 
