@@ -98,5 +98,3 @@ typings/
 
 # Ignore IDE webstorm folder
 /.idea
-
-package-lock.json
