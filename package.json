@@ -24,7 +24,6 @@
     "format": "prettier --write 'src/**/*.{js,ts}'",
     "prerelease": "npm run build",
     "release": "dotenv release-it",
-    "postrelease": "npm run build && npm run update-samples",
     "prepare": "husky install && cd ./samples/basic && npm install",
     "commitlint": "commitlint",
     "basic-sample": "cd ./samples/basic && npm run start",
