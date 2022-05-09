@@ -1,2 +1,2 @@
-export * from './connection';
+export * from './connexion';
 export * from './listeners';

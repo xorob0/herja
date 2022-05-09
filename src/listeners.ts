@@ -1,4 +1,4 @@
-import { shadowState, stateChangeEvent, stateListener } from './connection';
+import { shadowState, stateChangeEvent, stateListener } from './connexion';
 
 export const listenForEntity: <T>(
   entity_id: string | string[],
