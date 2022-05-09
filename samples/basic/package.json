@@ -7,7 +7,7 @@
     "start": "esr index.js"
   },
   "devDependencies": {
-    "@homeassistant-node/main": "link:../../dist",
+    "@homeassistant-node/main": "0.0.1",
     "esbuild-runner": "^2.2.1"
   },
   "author": "",
