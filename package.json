@@ -27,7 +27,7 @@
     "postrelease": "npm run build && npm run update-samples",
     "prepare": "husky install && cd ./samples/basic && npm",
     "commitlint": "commitlint",
-    "basic-sample": "cd ./samples/basic && npm start",
+    "basic-sample": "cd ./samples/basic && npm run start",
     "update-samples": "zx ./scripts/update-samples.mjs"
   },
   "devDependencies": {

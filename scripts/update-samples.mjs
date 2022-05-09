@@ -1,3 +1,3 @@
 #!/usr/bin/env zx
 
-await $`cd ./samples/basic && yarn && yarn generate-api`;
+await $`cd ./samples/basic && npm i && npm run generate-api`;
