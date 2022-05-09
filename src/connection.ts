@@ -7,7 +7,7 @@ import {
   callService as cs,
   getStates as gs,
   HassServiceTarget,
-  HassEntity
+  HassEntity,
 } from 'home-assistant-js-websocket';
 
 const MSG_TYPE_AUTH_REQUIRED = 'auth_required';
@@ -16,14 +16,14 @@ const MSG_TYPE_AUTH_OK = 'auth_ok';
 const ERR_CANNOT_CONNECT = 1;
 const ERR_INVALID_AUTH = 2;
 
-export let shadowState = {} as {[x in string]: HassEntity}
+export let shadowState = {} as { [x in string]: HassEntity };
 
 export type stateChangeEvent<T = unknown> = {
   data: {
     entity_id: string;
-    new_state: HassEntity
-  }
-}
+    new_state: HassEntity;
+  };
+};
 
 export let callService: (
   domain: string,
@@ -34,7 +34,9 @@ export let callService: (
   throw new Error('Connection was not initialized');
 };
 
-export let stateListener: <T>(callback: (event: stateChangeEvent<T>) => void) => void = () => {
+export let stateListener: <T>(
+  callback: (event: stateChangeEvent<T>) => void,
+) => void = () => {
   throw new Error('Connection was not initialized');
 };
 
@@ -63,7 +65,7 @@ export const configure = async ({
         url,
       );
 
-      const socket: WebSocket & {haVersion?: string} = new WebSocket(url, {
+      const socket: WebSocket & { haVersion?: string } = new WebSocket(url, {
         rejectUnauthorized: false,
       });
 
@@ -161,7 +163,7 @@ export const configure = async ({
             socket.removeEventListener('message', handleMessage);
             socket.removeEventListener('close', closeMessage);
             socket.removeEventListener('error', errorMessage);
-            socket.haVersion = message.ha_version
+            socket.haVersion = message.ha_version;
             promResolve(socket);
             break;
 
@@ -190,17 +192,19 @@ export const configure = async ({
     return cs(connection, domain, service, serviceData, target);
   };
 
-  stateListener =  (callback) =>{
-    connection.subscribeEvents(callback , 'state_changed')
-  }
+  stateListener = (callback) => {
+    connection.subscribeEvents(callback, 'state_changed');
+  };
 
   // Init state
-  const states = await gs(connection)
-  shadowState =  states.reduce((acc, entity) => ({...acc, [entity.entity_id]: entity}), {})
-  stateListener(event => {
-    shadowState[event.data.entity_id] = event.data.new_state
-  })
-
+  const states = await gs(connection);
+  shadowState = states.reduce(
+    (acc, entity) => ({ ...acc, [entity.entity_id]: entity }),
+    {},
+  );
+  stateListener((event) => {
+    shadowState[event.data.entity_id] = event.data.new_state;
+  });
 
   return connection;
 };
