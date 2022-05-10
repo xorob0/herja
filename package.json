@@ -51,7 +51,7 @@
     "tsup": "^5.12.0",
     "typescript": "^4.6.2",
     "vitest": "^0.12.2",
-    "zx": "^5.2.0"
+    "zx": "^6.1.0"
   },
   "dependencies": {
     "home-assistant-js-websocket": "^7.0.3",
