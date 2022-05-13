@@ -1,32 +1,45 @@
 import { shadowState, stateChangeEvent, stateListener } from './connexion';
-import {EntityId} from "./ha-types/common";
+import { EntityId } from './ha-types/common';
 
 export const listenForEntity: <T>(
-  entity: EntityId | EntityId[] | RegExp,
+  entity:
+    | EntityId
+    | EntityId[]
+    | RegExp
+    | ((event: stateChangeEvent<T>) => boolean),
   callback: (event: stateChangeEvent<T>) => void,
 ) => void = (entity, callback) => {
   if (typeof entity === 'string')
     stateListener((event) => {
       if (event.data.entity_id === entity) callback(event);
     });
-  else if("exec" in entity)
+  else if ('exec' in entity)
+    stateListener((event) => {
+      if (event.data.entity_id.match(entity)) callback(event);
+    });
+  else if (typeof entity === 'function') {
+    stateListener((event) => {
+      if (entity(event)) {
+        callback(event);
+      }
+    });
+  } else
+    entity.forEach((id) =>
       stateListener((event) => {
-          if (event.data.entity_id.match(entity)) callback(event);
-      });
-  else
-      entity.forEach((id) =>
-          stateListener((event) => {
-              if (event.data.entity_id === id) callback(event);
-          }),
-      );
+        if (event.data.entity_id === id) callback(event);
+      }),
+    );
 };
 
 export const onEntitiesStates: <T>(
-  entitiesState: ({ entity_id: EntityId; }&Partial<{ state: number | boolean | string, not: number | boolean | string}>)[],
+  entitiesState: ({ entity_id: EntityId } & Partial<{
+    state: number | boolean | string;
+    not: number | boolean | string;
+  }>)[],
   callback: (event: stateChangeEvent<T>) => void,
   otherwise?: (event: stateChangeEvent<T>) => void,
 ) => void = (entitiesState, callback, otherwise) => {
-  entitiesState.forEach(({ entity_id, state : currentEntityState}) => {
+  entitiesState.forEach(({ entity_id, state: currentEntityState }) => {
     listenForEntity(entity_id, (event) => {
       const isAllEntitiesCorrect = entitiesState.reduce(
         (isCorrect, { entity_id, state }) => {
