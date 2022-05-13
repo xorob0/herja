@@ -40,7 +40,7 @@ const generateEntities: (props: Props) => Promise<void> = async ({auth: {url, ac
                 toggle: `(serviceData = {}) => callService("${domain}", 'toggle', serviceData, {entity_id: "${entity_id}"})`,
             }
         if(domain === 'binary_sensor')
-            switches[name] = {
+            binary_sensor[name] = {
                 getState: `get state() { return shadowState["${entity_id}"]}`,
             }
     })
@@ -70,7 +70,7 @@ const switch: Switch = {
     ${switches[entity_id].getState},  
   },\n`, '')}}`, console.log)
 
-    fs.writeFile(`${path}/switch.ts`,
+    fs.writeFile(`${path}/binary_sensor.ts`,
         `import {callService, shadowState, BinarySensor} from "@homeassistant-node/main"
 const binary_sensor: BinarySensor = {
   ${Object.keys(binary_sensor).reduce((acc, entity_id)=>`${acc}
