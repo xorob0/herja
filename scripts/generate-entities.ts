@@ -47,11 +47,13 @@ const light: Light = {
     turn_off: ${light[entity_id].turn_off},  
     toggle: ${light[entity_id].toggle},
     ${light[entity_id].getState},  
-  },\n`, '')}}`, console.log)
+  },\n`, '')}}
+  export light
+  `, console.log)
 
     fs.writeFile(`${path}/switch.ts`,
         `import {callService, shadowState, Switch} from "@homeassistant-node/main"
-const switch: Switch = {
+const switches: Switch = {
   ${Object.keys(switches).reduce((acc, entity_id)=>`${acc}
   ["${entity_id}"]: {
     entity_id: "${entity_id}",
@@ -60,7 +62,7 @@ const switch: Switch = {
     toggle: ${switches[entity_id].toggle},
     ${switches[entity_id].getState},  
   },\n`, '')}}
-  export default switch
+  export switches
   `, console.log)
 
     fs.writeFile(`${path}/binary_sensor.ts`,
@@ -71,7 +73,7 @@ const binary_sensor: BinarySensor = {
     entity_id: "${entity_id}",
     ${binary_sensor[entity_id].getState},  
   },\n`, '')}}
-  export default binary_sensor
+  export binary_sensor
   `, console.log)
 }
 
