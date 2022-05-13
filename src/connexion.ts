@@ -17,7 +17,7 @@ const MSG_TYPE_AUTH_OK = 'auth_ok';
 const ERR_CANNOT_CONNECT = 1;
 const ERR_INVALID_AUTH = 2;
 
-export let shadowState = {} as { [x in string]: object  };
+export let shadowState = {} as { [x in string]: any  };
 
 export type stateChangeEvent<T = unknown> = {
   data: {
