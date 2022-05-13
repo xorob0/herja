@@ -62,7 +62,7 @@ export type LightState = {
 
 
 export type Light = {
-    [entity_id: LightEntityId]: {
+    [entity_id: string]: {
         entity_id: LightEntityId,
         state: LightState,
         turn_on: LightTurnOn,

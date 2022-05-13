@@ -20,7 +20,7 @@ export type SwitchState = {
 
 
 export type Switch = {
-    [entity_id: SwitchEntityId]: {
+    [entity_id: string]: {
         entity_id: SwitchEntityId,
         state: SwitchState,
         turn_on: SwitchTurnOn,

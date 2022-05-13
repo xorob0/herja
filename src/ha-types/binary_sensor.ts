@@ -15,7 +15,7 @@ export type BinarySensorState = {
 
 
 export type BinarySensor = {
-    [entity_id: BinarySensorEntityId]: {
+    [entity_id: string]: {
         entity_id: BinarySensorEntityId,
         state: BinarySensorState,
     }
