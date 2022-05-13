@@ -48,7 +48,7 @@ export const configure = async ({
 }: {
   url: string;
   access_token: string;
-  path: string;
+  path?: string;
 }) => {
   const createSocket: (
     options: ConnectionOptions,
