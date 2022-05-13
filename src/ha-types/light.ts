@@ -1,4 +1,4 @@
-export type LightEntityId = `light.${string}`
+export type LightEntityId = string //`light.${string}`
 export type LightTurnOnOptions = {
     transition?: number,
     profile?: string,

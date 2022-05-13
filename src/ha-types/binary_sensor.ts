@@ -1,4 +1,4 @@
-export type BinarySensorEntityId = `binary_sensor.${string}`
+export type BinarySensorEntityId = string//`binary_sensor.${string}`
 
 //TODO abstract this
 export type BinarySensorState = {

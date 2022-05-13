@@ -1,4 +1,4 @@
-export type SwitchEntityId = `switch.${string}`
+export type SwitchEntityId = string //`switch.${string}`
 export type SwitchTurnOn = () => void
 
 export type SwitchToggle = () => void
