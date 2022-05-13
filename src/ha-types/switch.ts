@@ -1,3 +1,5 @@
+import {HassEntity} from "home-assistant-js-websocket";
+
 export type SwitchEntityId = string //`switch.${string}`
 export type SwitchTurnOn = () => void
 
@@ -6,16 +8,9 @@ export type SwitchToggle = () => void
 export type SwitchTurnOff = () => void
 
 //TODO abstract this
-export type SwitchState = {
+export type SwitchState = HassEntity & {
     entity_id: SwitchEntityId,
     state: "on" | "off" | "unavailable",
-    last_changed: string,
-    last_updated: string,
-    context: {
-        id: string,
-        parent_id?: string| null,
-        user_id: string
-    }
 }
 
 

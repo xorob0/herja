@@ -1,3 +1,5 @@
+import {HassEntity} from "home-assistant-js-websocket";
+
 export type LightEntityId = string //`light.${string}`
 export type LightTurnOnOptions = {
     transition?: number,
@@ -39,25 +41,15 @@ WHITE = "white"
 }
 
 
-export type LightState = {
+export type LightState = HassEntity & {
     entity_id: LightEntityId,
     state: "on" | "off" | "unavailable",
     attributes: {
         supported_color_modes: ColorModes[],
-        friendly_name: string,
-        supported_features: number,
         min_mireds: number,
         max_mireds: number,
         effect_list: string[]
-        //TODO probably more
     },
-    last_changed: string,
-    last_updated: string,
-    context: {
-        id: string,
-        parent_id?: string| null,
-        user_id: string
-    }
 }
 
 
