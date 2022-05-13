@@ -18,9 +18,9 @@ export type LightTurnOnOptions = {
     flash?:"long"|"short",
     effect?: string
 }
-export type LightTurnOn = (options: LightTurnOnOptions) => void
+export type LightTurnOn = (options?: LightTurnOnOptions) => void
 
-export type LightToggle = (options: LightTurnOnOptions) => void
+export type LightToggle = (options?: LightTurnOnOptions) => void
 
 export type LightTurnOffOptions = {transition: number}
 export type LightTurnOff = (options: LightTurnOffOptions) => void
