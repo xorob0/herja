@@ -17,18 +17,18 @@ export const listenForEntity: <T>(
 };
 
 export const onEntitiesStates: <T>(
-  entitiesState: { entity_id: string; state: number | boolean | string }[],
+  entitiesState: ({ entity_id: string; }&Partial<{ state: number | boolean | string, not: number | boolean | string}>)[],
   callback: (event: stateChangeEvent<T>) => void,
-  otherwise: (event: stateChangeEvent<T>) => void,
+  otherwise?: (event: stateChangeEvent<T>) => void,
 ) => void = (entitiesState, callback, otherwise) => {
-  entitiesState.forEach(({ entity_id, state }) => {
+  entitiesState.forEach(({ entity_id, state : currentEntityState}) => {
     listenForEntity(entity_id, (event) => {
       const isAllEntitiesCorrect = entitiesState.reduce(
         (isCorrect, { entity_id, state }) => {
           if (!isCorrect) return false;
           if (
             entity_id === event.data.entity_id &&
-            state === event.data.new_state.state
+            currentEntityState === event.data.new_state.state
           )
             return true;
           return shadowState[entity_id].state === state;
