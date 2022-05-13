@@ -9,6 +9,7 @@ import {
   HassServiceTarget,
   HassEntity,
 } from 'home-assistant-js-websocket';
+import generateEntities from "../scripts/generate-entities";
 
 const MSG_TYPE_AUTH_REQUIRED = 'auth_required';
 const MSG_TYPE_AUTH_INVALID = 'auth_invalid';
@@ -205,6 +206,8 @@ export const configure = async ({
   stateListener((event) => {
     shadowState[event.data.entity_id] = event.data.new_state;
   });
+
+  generateEntities({config: {path: "../generated"}})
 
   return connection;
 };

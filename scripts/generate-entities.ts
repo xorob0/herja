@@ -2,21 +2,12 @@ import {configure, shadowState} from "../src";
 import * as fs from "fs";
 
 type Props= {
-    auth:{
-        url: string,
-        access_token: string
-    }
     config:{
         path: string
     }
 }
 
-const generateEntities: (props: Props) => Promise<void> = async ({auth: {url, access_token}, config:{path}}) => {
-    await configure({
-        url,
-        access_token,
-    });
-    console.log("finished configuring")
+const generateEntities: (props: Props) => void = ({config:{path}}) => {
     // TODO add type for domains later
     let light:Record<string, any> = {}
     let binary_sensor:Record<string, any> = {}
@@ -68,7 +59,9 @@ const switch: Switch = {
     turn_off: ${switches[entity_id].turn_off},  
     toggle: ${switches[entity_id].toggle}
     ${switches[entity_id].getState},  
-  },\n`, '')}}`, console.log)
+  },\n`, '')}}
+  export default switch
+  `, console.log)
 
     fs.writeFile(`${path}/binary_sensor.ts`,
         `import {callService, shadowState, BinarySensor} from "@homeassistant-node/main"
@@ -77,11 +70,9 @@ const binary_sensor: BinarySensor = {
   ["${entity_id}"]: {
     entity_id: "${entity_id}",
     ${binary_sensor[entity_id].getState},  
-  },\n`, '')}}`, console.log)
+  },\n`, '')}}
+  export default binary_sensor
+  `, console.log)
 }
 
-generateEntities({auth:{
-        url: "ws://10.200.0.5:8123/api/websocket",
-        access_token: "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJjMWIyNDM4OTMzYjM0ZGRkYTM2OWVjMDQ0NGQ2NGQwMiIsImlhdCI6MTY1MjA5ODM0OCwiZXhwIjoxOTY3NDU4MzQ4fQ.OdqlEOZo-uwo4qZPaxkmmwwlf6OwhmySIutzitDbm3g",
-    }, config: {path: "/tmp"}})
 export default generateEntities
