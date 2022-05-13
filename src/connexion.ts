@@ -10,7 +10,6 @@ import {
   HassEntity,
 } from 'home-assistant-js-websocket';
 import generateEntities from "../scripts/generate-entities";
-import {HAState, LightState} from "./ha-types";
 
 const MSG_TYPE_AUTH_REQUIRED = 'auth_required';
 const MSG_TYPE_AUTH_INVALID = 'auth_invalid';
