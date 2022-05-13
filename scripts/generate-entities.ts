@@ -45,7 +45,7 @@ const light: Light = {
     entity_id: "${entity_id}",
     turn_on: ${light[entity_id].turn_on},  
     turn_off: ${light[entity_id].turn_off},  
-    toggle: ${light[entity_id].toggle}
+    toggle: ${light[entity_id].toggle},
     ${light[entity_id].getState},  
   },\n`, '')}}`, console.log)
 
@@ -57,7 +57,7 @@ const switch: Switch = {
     entity_id: "${entity_id}",
     turn_on: ${switches[entity_id].turn_on},  
     turn_off: ${switches[entity_id].turn_off},  
-    toggle: ${switches[entity_id].toggle}
+    toggle: ${switches[entity_id].toggle},
     ${switches[entity_id].getState},  
   },\n`, '')}}
   export default switch

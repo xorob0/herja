@@ -10,6 +10,7 @@ import {
   HassEntity,
 } from 'home-assistant-js-websocket';
 import generateEntities from "../scripts/generate-entities";
+import {HAState, LightState} from "./ha-types";
 
 const MSG_TYPE_AUTH_REQUIRED = 'auth_required';
 const MSG_TYPE_AUTH_INVALID = 'auth_invalid';
@@ -17,7 +18,7 @@ const MSG_TYPE_AUTH_OK = 'auth_ok';
 const ERR_CANNOT_CONNECT = 1;
 const ERR_INVALID_AUTH = 2;
 
-export let shadowState = {} as { [x in string]: HassEntity };
+export let shadowState = {} as { [x in string]: HAState  };
 
 export type stateChangeEvent<T = unknown> = {
   data: {
