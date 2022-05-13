@@ -3,7 +3,7 @@ export type BinarySensorEntityId = string//`binary_sensor.${string}`
 //TODO abstract this
 export type BinarySensorState = {
     entity_id: BinarySensorEntityId,
-    state: "on" | "off" | "unavailable",
+    state: string//"on" | "off" | "unavailable",
     last_changed: string,
     last_updated: string,
     context: {

@@ -41,7 +41,7 @@ WHITE = "white"
 
 export type LightState = {
     entity_id: LightEntityId,
-    state: "on" | "off" | "unavailable",
+    state: string,//"on" | "off" | "unavailable",
     attributes: {
         supported_color_modes: ColorModes[],
         friendly_name: string,

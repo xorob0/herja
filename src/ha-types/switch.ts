@@ -8,7 +8,7 @@ export type SwitchTurnOff = () => void
 //TODO abstract this
 export type SwitchState = {
     entity_id: SwitchEntityId,
-    state: "on" | "off" | "unavailable",
+    state: string,//"on" | "off" | "unavailable",
     last_changed: string,
     last_updated: string,
     context: {
