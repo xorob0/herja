@@ -44,9 +44,11 @@ export let stateListener: <T>(
 export const configure = async ({
   url,
   access_token,
+    path,
 }: {
   url: string;
   access_token: string;
+  path: string;
 }) => {
   const createSocket: (
     options: ConnectionOptions,
@@ -207,7 +209,8 @@ export const configure = async ({
     shadowState[event.data.entity_id] = event.data.new_state;
   });
 
-  generateEntities({config: {path: "../generated"}})
+  if(path)
+    generateEntities({config: {path}})
 
   return connection;
 };
