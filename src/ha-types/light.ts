@@ -23,7 +23,7 @@ export type LightTurnOn = (options?: LightTurnOnOptions) => void
 export type LightToggle = (options?: LightTurnOnOptions) => void
 
 export type LightTurnOffOptions = {transition: number}
-export type LightTurnOff = (options: LightTurnOffOptions) => void
+export type LightTurnOff = (options?: LightTurnOffOptions) => void
 
 export enum ColorModes {
 UNKNOWN = "unknown",
