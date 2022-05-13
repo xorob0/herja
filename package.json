@@ -1,7 +1,7 @@
 {
   "name": "@homeassistant-node/main",
   "description": "An home assistant library for nodeJS",
-  "version": "1.2.6",
+  "version": "1.2.7",
   "license": "MIT",
   "files": [
     "dist"
