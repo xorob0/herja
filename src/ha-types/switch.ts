@@ -19,8 +19,8 @@ export type SwitchState = {
 }
 
 
-export type Switch = {
-    [entity_id: string]: {
+export type Switch<T extends string = string>  = {
+    [entity_id in T]: {
         entity_id: SwitchEntityId,
         state: SwitchState,
         turn_on: SwitchTurnOn,

@@ -22,7 +22,7 @@ export type LightTurnOn = (options?: LightTurnOnOptions) => void
 
 export type LightToggle = (options?: LightTurnOnOptions) => void
 
-export type LightTurnOffOptions = {transition: number}
+export type LightTurnOffOptions = {transition?: number}
 export type LightTurnOff = (options?: LightTurnOffOptions) => void
 
 export enum ColorModes {
@@ -61,12 +61,12 @@ export type LightState = {
 }
 
 
-export type Light = {
-    [entity_id: string]: {
-        entity_id: LightEntityId,
-        state: LightState,
-        turn_on: LightTurnOn,
-        turn_off: LightTurnOff,
+export type Light<T extends string = string> = {
+    [entity_id in T]: {
+        entity_id: LightEntityId
+        state: LightState
+        turn_on: LightTurnOn
+        turn_off: LightTurnOff
         toggle: LightToggle
     }
 }

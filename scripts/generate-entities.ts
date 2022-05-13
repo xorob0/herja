@@ -39,7 +39,8 @@ const generateEntities: (props: Props) => void = ({config:{path}}) => {
     console.log(light)
     fs.writeFile(`${path}/light.ts`,
         `import {callService, shadowState, Light} from "@homeassistant-node/main"
-export const light: Light = {
+        export type LightIDs = "${Object.keys(light).join('" | "')}"
+export const light: Light<LightIDs> = {
   ${Object.keys(light).reduce((acc, entity_id)=>`${acc}
   ["${entity_id}"]: {
     entity_id: "${entity_id}",
@@ -52,7 +53,8 @@ export const light: Light = {
 
     fs.writeFile(`${path}/switch.ts`,
         `import {callService, shadowState, Switch} from "@homeassistant-node/main"
-export const switches: Switch = {
+        export type SwitchIDs = "${Object.keys(switches).join('" | "')}"
+export const switches: Switch<SwitchIDs> = {
   ${Object.keys(switches).reduce((acc, entity_id)=>`${acc}
   ["${entity_id}"]: {
     entity_id: "${entity_id}",
@@ -65,7 +67,8 @@ export const switches: Switch = {
 
     fs.writeFile(`${path}/binary_sensor.ts`,
         `import {callService, shadowState, BinarySensor} from "@homeassistant-node/main"
-export const binary_sensor: BinarySensor = {
+        export type BinarySensorIDs = "${Object.keys(binary_sensor).join('" | "')}"
+export const binary_sensor: BinarySensor<BinarySensorIDs> = {
   ${Object.keys(binary_sensor).reduce((acc, entity_id)=>`${acc}
   ["${entity_id}"]: {
     entity_id: "${entity_id}",

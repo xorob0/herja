@@ -14,8 +14,8 @@ export type BinarySensorState = {
 }
 
 
-export type BinarySensor = {
-    [entity_id: string]: {
+export type BinarySensor<T extends string = string>  = {
+    [entity_id in T]: {
         entity_id: BinarySensorEntityId,
         state: BinarySensorState,
     }
