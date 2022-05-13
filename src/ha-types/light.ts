@@ -1,6 +1,5 @@
 export type LightEntityId = `light.${string}`
 export type LightTurnOnOptions = {
-    entity_id: LightEntityId,
     transition?: number,
     profile?: string,
     hs_color?: [number, number],
