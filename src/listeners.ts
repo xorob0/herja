@@ -1,23 +1,28 @@
 import { shadowState, stateChangeEvent, stateListener } from './connexion';
+import {EntityId} from "./ha-types/common";
 
 export const listenForEntity: <T>(
-  entity_id: string | string[],
+  entity: EntityId | EntityId[] | RegExp,
   callback: (event: stateChangeEvent<T>) => void,
-) => void = (entity_id, callback) => {
-  if (typeof entity_id === 'string')
+) => void = (entity, callback) => {
+  if (typeof entity === 'string')
     stateListener((event) => {
-      if (event.data.entity_id === entity_id) callback(event);
+      if (event.data.entity_id === entity) callback(event);
     });
-  else
-    entity_id.forEach((id) =>
+  else if("exec" in entity)
       stateListener((event) => {
-        if (event.data.entity_id === id) callback(event);
-      }),
-    );
+          if (event.data.entity_id.match(entity)) callback(event);
+      });
+  else
+      entity.forEach((id) =>
+          stateListener((event) => {
+              if (event.data.entity_id === id) callback(event);
+          }),
+      );
 };
 
 export const onEntitiesStates: <T>(
-  entitiesState: ({ entity_id: string; }&Partial<{ state: number | boolean | string, not: number | boolean | string}>)[],
+  entitiesState: ({ entity_id: EntityId; }&Partial<{ state: number | boolean | string, not: number | boolean | string}>)[],
   callback: (event: stateChangeEvent<T>) => void,
   otherwise?: (event: stateChangeEvent<T>) => void,
 ) => void = (entitiesState, callback, otherwise) => {
@@ -37,7 +42,7 @@ export const onEntitiesStates: <T>(
       );
 
       if (isAllEntitiesCorrect) callback(event);
-      else otherwise(event);
+      else otherwise?.(event);
     });
   });
 };

@@ -26,21 +26,22 @@ const generateEntities: (props: Props) => Promise<void> = async ({auth: {url, ac
         if(domain === 'light')
         light[name] = {
             getState: `get state() { return shadowState["${entity_id}"]}`,
-            //TODO manage options
-            //TODO enum for actions
             turn_on: `(serviceData = {}) => callService("${domain}", 'turn_on', serviceData, {entity_id: "${entity_id}"})`,
-            turn_off: `(serviceData = {}) => callService("${domain}", 'turn_off', serviceData, {entity_id: "${entity_id}"})`
+            turn_off: `(serviceData = {}) => callService("${domain}", 'turn_off', serviceData, {entity_id: "${entity_id}"})`,
+            toggle: `(serviceData = {}) => callService("${domain}", 'toggle', serviceData, {entity_id: "${entity_id}"})`
             }
     })
 
     console.log(light)
     fs.writeFile(`${path}/light.ts`,
-        `import {callService, shadowState} from "@homeassistant-node/main"
-const light = {
+        `import {callService, shadowState, Light} from "@homeassistant-node/main"
+const light: Light = {
   ${Object.keys(light).reduce((acc, entity_id)=>`${acc}
   ["${entity_id}"]: {
+    entity_id: "${entity_id}",
     turn_on: ${light[entity_id].turn_on},  
     turn_off: ${light[entity_id].turn_off},  
+    toggle: ${light[entity_id].toggle}
     ${light[entity_id].getState},  
   },\n`, '')}}`, console.log)
 }
