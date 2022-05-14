@@ -9,7 +9,7 @@ import {
   HassServiceTarget,
   HassEntity,
 } from 'home-assistant-js-websocket';
-import generateEntities from "../scripts/generate-entities";
+import generateEntities from "./utils/generate-entities";
 
 const MSG_TYPE_AUTH_REQUIRED = 'auth_required';
 const MSG_TYPE_AUTH_INVALID = 'auth_invalid';
@@ -20,10 +20,7 @@ const ERR_INVALID_AUTH = 2;
 export let shadowState = {} as { [x in string]: HassEntity  };
 
 export type StateChangeEvent<T = unknown> = {
-  data: {
-    entity_id: string;
-    new_state: HassEntity;
-  };
+  data: HassEntity
 };
 
 export let callService: (

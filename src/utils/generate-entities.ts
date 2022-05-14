@@ -1,4 +1,4 @@
-import {configure, shadowState} from "../src";
+import {configure, shadowState} from "../index";
 import * as fs from "fs";
 
 type Props= {
