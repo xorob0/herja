@@ -43,7 +43,7 @@ WHITE = "white"
 
 export type LightState = HassEntity & {
     entity_id: LightEntityId,
-    state: "on" | "off" | "unavailable",
+    state: {state: "on" | "off" | "unavailable"},
     attributes: {
         supported_color_modes: ColorModes[],
         min_mireds: number,
