@@ -38,6 +38,13 @@ export let stateListener: <T>(
   throw new Error('Connection was not initialized');
 };
 
+export let eventListener: <T>(
+    callback: (event: StateChangeEvent<T>) => void,
+    eventType?: string
+) => void = () => {
+  throw new Error('Connection was not initialized');
+};
+
 export const configure = async ({
   url,
   access_token,
@@ -194,6 +201,9 @@ export const configure = async ({
 
   stateListener = (callback) => {
     connection.subscribeEvents(callback, 'state_changed');
+  };
+  eventListener = (callback, eventType) => {
+    connection.subscribeEvents(callback, eventType);
   };
 
   // Init state

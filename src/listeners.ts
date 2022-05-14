@@ -1,4 +1,4 @@
-import { StateChangeEvent, stateListener } from './connexion';
+import {eventListener, StateChangeEvent, stateListener} from './connexion';
 import { EntityId } from './ha-types';
 import {HassEntity, HassServiceTarget} from "home-assistant-js-websocket";
 import {isString} from "./utils/isString";
@@ -10,6 +10,7 @@ type Dependency<T> = | EntityId
     | HassEntity
     | HassServiceTarget
     | string
+    | {eventType?:string}
 
 type Effect = <T = unknown>(callback: (event: StateChangeEvent) => void, dependencies:Dependency<T>[]) => void
 
@@ -34,6 +35,9 @@ export const effect: Effect = (callback, dependencies) =>{
       stateListener((event) => {
         if (event.data.entity_id === dependency.entity_id) callback(event);
       });
+    }
+    else if("eventType" in dependency){
+      eventListener(callback, dependency.eventType)
     }
   })
 }
