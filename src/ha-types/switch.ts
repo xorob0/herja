@@ -20,6 +20,7 @@ export type Switch<T extends string = string>  = {
         state: SwitchState,
         turn_on: SwitchTurnOn,
         turn_off: SwitchTurnOff,
-        toggle: SwitchToggle
+        toggle: SwitchToggle,
+        isOn: ()=> boolean
     }
 }

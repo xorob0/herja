@@ -12,5 +12,6 @@ export type BinarySensor<T extends string = string>  = {
     [entity_id in T]: {
         entity_id: BinarySensorEntityId,
         state: BinarySensorState,
+        isOn: ()=> boolean
     }
 }

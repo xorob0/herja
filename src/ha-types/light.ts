@@ -61,5 +61,6 @@ export type Light<T extends string = string> = {
         turn_on: LightTurnOn
         turn_off: LightTurnOff
         toggle: LightToggle
+        isOn: ()=> boolean
     }
 }
