@@ -22,7 +22,7 @@ const generateEntities: (props: Props) => void = ({config:{path}}) => {
             turn_on: `(serviceData = {}) => callService("${domain}", 'turn_on', serviceData, {entity_id: "${entity_id}"})`,
             turn_off: `(serviceData = {}) => callService("${domain}", 'turn_off', serviceData, {entity_id: "${entity_id}"})`,
             toggle: `(serviceData = {}) => callService("${domain}", 'toggle', serviceData, {entity_id: "${entity_id}"})`,
-            isOn: `() => return shadowState["${entity_id}"].state === "on"`,
+            isOn: `() => shadowState["${entity_id}"].state === "on"`,
             }
         if(domain === 'switch')
             switches[name] = {
@@ -30,12 +30,12 @@ const generateEntities: (props: Props) => void = ({config:{path}}) => {
                 turn_on: `(serviceData = {}) => callService("${domain}", 'turn_on', serviceData, {entity_id: "${entity_id}"})`,
                 turn_off: `(serviceData = {}) => callService("${domain}", 'turn_off', serviceData, {entity_id: "${entity_id}"})`,
                 toggle: `(serviceData = {}) => callService("${domain}", 'toggle', serviceData, {entity_id: "${entity_id}"})`,
-                isOn: `() => return shadowState["${entity_id}"].state === "on"`,
+                isOn: `() => shadowState["${entity_id}"].state === "on"`,
             }
         if(domain === 'binary_sensor')
             binary_sensor[name] = {
                 getState: `get state() { return shadowState["${entity_id}"]}`,
-                isOn: `() => return shadowState["${entity_id}"].state === "on"`,
+                isOn: `() => shadowState["${entity_id}"].state === "on"`,
             }
     })
 
