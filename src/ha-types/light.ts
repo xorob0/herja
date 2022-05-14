@@ -45,10 +45,10 @@ export type LightState = HassEntity & {
     entity_id: LightEntityId,
     state: "on" | "off" | "unavailable"| string,
     attributes: {
-        supported_color_modes: ColorModes[],
-        min_mireds: number,
-        max_mireds: number,
-        effect_list: string[]
+        supported_color_modes?: ColorModes[],
+        min_mireds?: number,
+        max_mireds?: number,
+        effect_list?: string[]
     },
 }
 
