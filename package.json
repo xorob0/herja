@@ -1,13 +1,13 @@
 {
-  "name": "@homeassistant-node/main",
-  "description": "An home assistant library for nodeJS",
-  "version": "2.2.3",
+  "name": "@herja/core",
+  "description": "A home assistant library for nodeJS",
+  "version": "1.0.0",
   "license": "MIT",
   "files": [
     "dist"
   ],
   "main": "dist/index.js",
-  "keywords": [],
+  "keywords": ["homeassistant", "iot", "automation"],
   "author": {
     "name": "Tim Simon",
     "email": "npm@toum.me"
@@ -18,7 +18,7 @@
   },
   "scripts": {
     "build": "tsup src/index.ts --minify --clean --dts --splitting",
-    "dev": "tsup src/connection.ts --clean --watch src --onSuccess 'npm run basic-sample'",
+    "dev": "tsup src/index.ts --clean --watch src --dts",
     "lint": "eslint src/**/*.ts",
     "test": "vitest --global test.ts",
     "format": "prettier --write 'src/**/*.{js,ts}'",
