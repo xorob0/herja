@@ -1,4 +1,4 @@
-import { shadowState, stateChangeEvent, stateListener } from './connexion';
+import { shadowState, StateChangeEvent, stateListener } from './connexion';
 import { EntityId } from './ha-types/common';
 
 export const listenForEntity: <T>(
@@ -6,8 +6,8 @@ export const listenForEntity: <T>(
     | EntityId
     | EntityId[]
     | RegExp
-    | ((event: stateChangeEvent<T>) => boolean),
-  callback: (event: stateChangeEvent<T>) => void,
+    | ((event: StateChangeEvent<T>) => boolean),
+  callback: (event: StateChangeEvent<T>) => void,
 ) => void = (entity, callback) => {
   if (typeof entity === 'string')
     stateListener((event) => {
@@ -36,8 +36,8 @@ export const onEntitiesStates: <T>(
     state: number | boolean | string;
     not: number | boolean | string;
   }>)[],
-  callback: (event: stateChangeEvent<T>) => void,
-  otherwise?: (event: stateChangeEvent<T>) => void,
+  callback: (event: StateChangeEvent<T>) => void,
+  otherwise?: (event: StateChangeEvent<T>) => void,
 ) => void = (entitiesState, callback, otherwise) => {
   entitiesState.forEach(({ entity_id, state: currentEntityState }) => {
     listenForEntity(entity_id, (event) => {
@@ -59,3 +59,8 @@ export const onEntitiesStates: <T>(
     });
   });
 };
+
+
+Effect(()=>light.garage.turn_on(), [binary_state.garage_door])
+
+const Effect: (callback: ()) = ((()))

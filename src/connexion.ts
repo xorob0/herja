@@ -19,7 +19,7 @@ const ERR_INVALID_AUTH = 2;
 
 export let shadowState = {} as { [x in string]: HassEntity  };
 
-export type stateChangeEvent<T = unknown> = {
+export type StateChangeEvent<T = unknown> = {
   data: {
     entity_id: string;
     new_state: HassEntity;
@@ -36,7 +36,7 @@ export let callService: (
 };
 
 export let stateListener: <T>(
-  callback: (event: stateChangeEvent<T>) => void,
+  callback: (event: StateChangeEvent<T>) => void,
 ) => void = () => {
   throw new Error('Connection was not initialized');
 };

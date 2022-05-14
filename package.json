@@ -39,6 +39,7 @@
     "@typescript-eslint/eslint-plugin": "^5.14.0",
     "@typescript-eslint/parser": "^5.14.0",
     "commitizen": "^4.2.4",
+    "cz-conventional-changelog": "^3.3.0",
     "dotenv-cli": "^5.1.0",
     "eslint": "^8.10.0",
     "eslint-config-prettier": "^8.5.0",
@@ -57,5 +58,10 @@
   "dependencies": {
     "home-assistant-js-websocket": "^7.0.3",
     "ws": "^8.6.0"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
   }
 }
