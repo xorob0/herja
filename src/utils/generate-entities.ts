@@ -49,7 +49,9 @@ export const light: Light<LightIDs> = {
     toggle: ${light[entity_id].toggle},
     ${light[entity_id].getState},  
   },\n`, '')}}
-  `, console.log)
+  `, e => {
+        if(e) console.warn(e)
+        })
 
     fs.writeFile(`${path}/switch.ts`,
         `import {callService, shadowState, Switch} from "@homeassistant-node/main"
@@ -63,7 +65,9 @@ export const switches: Switch<SwitchIDs> = {
     toggle: ${switches[entity_id].toggle},
     ${switches[entity_id].getState},  
   },\n`, '')}}
-  `, console.log)
+  `, e => {
+        if(e) console.warn(e)
+        })
 
     fs.writeFile(`${path}/binary_sensor.ts`,
         `import {callService, shadowState, BinarySensor} from "@homeassistant-node/main"
@@ -74,7 +78,9 @@ export const binary_sensor: BinarySensor<BinarySensorIDs> = {
     entity_id: "binary_sensor.${entity_id}",
     ${binary_sensor[entity_id].getState},  
   },\n`, '')}}
-  `, console.log)
+  `, e => {
+        if(e) console.warn(e)
+        })
 }
 
 export default generateEntities
