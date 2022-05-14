@@ -10,7 +10,7 @@ export type SwitchTurnOff = () => void
 //TODO abstract this
 export type SwitchState = HassEntity & {
     entity_id: SwitchEntityId,
-    state: {state: "on" | "off" | "unavailable"},
+    state: {state: "on" | "off" | "unavailable"| string},
 }
 
 
