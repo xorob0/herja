@@ -1,13 +1,17 @@
 {
   "name": "@herja/core",
   "description": "A home assistant library for nodeJS",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "license": "MIT",
   "files": [
     "dist"
   ],
   "main": "dist/index.js",
-  "keywords": ["homeassistant", "iot", "automation"],
+  "keywords": [
+    "homeassistant",
+    "iot",
+    "automation"
+  ],
   "author": {
     "name": "Tim Simon",
     "email": "npm@toum.me"
