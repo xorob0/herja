@@ -1,15 +1,15 @@
 // Based on https://github.com/keesschollaart81/vscode-home-assistant/blob/master/src/language-service/src/home-assistant/socket.ts
 import WebSocket = require('ws');
 import {
+  callService as cs,
   ConnectionOptions,
   createConnection,
-  HaWebSocket,
-  callService as cs,
   getStates as gs,
-  HassServiceTarget,
   HassEntity,
+  HassServiceTarget,
+  HaWebSocket,
 } from 'home-assistant-js-websocket';
-import generateEntities from "./utils/generate-entities";
+import generateEntities from './utils/generate-entities';
 
 const MSG_TYPE_AUTH_REQUIRED = 'auth_required';
 const MSG_TYPE_AUTH_INVALID = 'auth_invalid';
@@ -17,10 +17,10 @@ const MSG_TYPE_AUTH_OK = 'auth_ok';
 const ERR_CANNOT_CONNECT = 1;
 const ERR_INVALID_AUTH = 2;
 
-export let shadowState = {} as { [x in string]: HassEntity  };
+export let shadowState = {} as { [x in string]: HassEntity };
 
 export type StateChangeEvent<T = unknown> = {
-  data: HassEntity & {new_state: HassEntity, old_state: HassEntity}
+  data: HassEntity & { new_state: HassEntity; old_state: HassEntity };
 };
 
 export let callService: (
@@ -41,7 +41,7 @@ export let stateListener: <T>(
 export const configure = async ({
   url,
   access_token,
-    path,
+  path,
 }: {
   url: string;
   access_token: string;
@@ -206,8 +206,10 @@ export const configure = async ({
     shadowState[event.data.entity_id] = event.data.new_state;
   });
 
-  if(path)
-    generateEntities({config: {path}})
+  if (path) {
+    await generateEntities({ config: { path } });
+    console.log('Entites generated');
+  }
 
   return connection;
 };
