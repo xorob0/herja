@@ -83,25 +83,21 @@ type Effect = <T = unknown>(callback: (event: StateChangeEvent) => void, depende
 export const effect: Effect = (callback, dependencies) =>{
   dependencies.forEach(dependency => {
     if(isString(dependency)){
-      console.log('string', dependency)
       stateListener((event) => {
         if (event.data.entity_id === dependency) callback(event);
       });
     }
     else if(isRegExp(dependency)){
-      console.log('regex', dependency)
       stateListener((event) => {
         if (event.data.entity_id.match(dependency)) callback(event);
       });
     }
     else if(typeof dependency === "function"){
-      console.log('function', dependency)
       stateListener((event) => {
         if (dependency(event)) callback(event);
       });
     }
     else if("entity_id" in dependency){
-      console.log('entity', dependency)
       stateListener((event) => {
         if (event.data.entity_id === dependency.entity_id) callback(event);
       });

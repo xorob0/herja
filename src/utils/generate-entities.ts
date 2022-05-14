@@ -43,7 +43,7 @@ const generateEntities: (props: Props) => void = ({config:{path}}) => {
 export const light: Light<LightIDs> = {
   ${Object.keys(light).reduce((acc, entity_id)=>`${acc}
   ["${entity_id}"]: {
-    entity_id: "${entity_id}",
+    entity_id: "light.${entity_id}",
     turn_on: ${light[entity_id].turn_on},  
     turn_off: ${light[entity_id].turn_off},  
     toggle: ${light[entity_id].toggle},
@@ -57,7 +57,7 @@ export const light: Light<LightIDs> = {
 export const switches: Switch<SwitchIDs> = {
   ${Object.keys(switches).reduce((acc, entity_id)=>`${acc}
   ["${entity_id}"]: {
-    entity_id: "${entity_id}",
+    entity_id: "switch.${entity_id}",
     turn_on: ${switches[entity_id].turn_on},  
     turn_off: ${switches[entity_id].turn_off},  
     toggle: ${switches[entity_id].toggle},
@@ -71,7 +71,7 @@ export const switches: Switch<SwitchIDs> = {
 export const binary_sensor: BinarySensor<BinarySensorIDs> = {
   ${Object.keys(binary_sensor).reduce((acc, entity_id)=>`${acc}
   ["${entity_id}"]: {
-    entity_id: "${entity_id}",
+    entity_id: "binary_sensor.${entity_id}",
     ${binary_sensor[entity_id].getState},  
   },\n`, '')}}
   `, console.log)
