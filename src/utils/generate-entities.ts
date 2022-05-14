@@ -22,6 +22,7 @@ const generateEntities: (props: Props) => void = ({config:{path}}) => {
             turn_on: `(serviceData = {}) => callService("${domain}", 'turn_on', serviceData, {entity_id: "${entity_id}"})`,
             turn_off: `(serviceData = {}) => callService("${domain}", 'turn_off', serviceData, {entity_id: "${entity_id}"})`,
             toggle: `(serviceData = {}) => callService("${domain}", 'toggle', serviceData, {entity_id: "${entity_id}"})`,
+            isOn: `() => return shadowState["${entity_id}"].state === "on"`,
             }
         if(domain === 'switch')
             switches[name] = {
@@ -29,10 +30,12 @@ const generateEntities: (props: Props) => void = ({config:{path}}) => {
                 turn_on: `(serviceData = {}) => callService("${domain}", 'turn_on', serviceData, {entity_id: "${entity_id}"})`,
                 turn_off: `(serviceData = {}) => callService("${domain}", 'turn_off', serviceData, {entity_id: "${entity_id}"})`,
                 toggle: `(serviceData = {}) => callService("${domain}", 'toggle', serviceData, {entity_id: "${entity_id}"})`,
+                isOn: `() => return shadowState["${entity_id}"].state === "on"`,
             }
         if(domain === 'binary_sensor')
             binary_sensor[name] = {
                 getState: `get state() { return shadowState["${entity_id}"]}`,
+                isOn: `() => return shadowState["${entity_id}"].state === "on"`,
             }
     })
 
@@ -45,6 +48,7 @@ export const light: Light<LightIDs> = {
     entity_id: "light.${entity_id}",
     turn_on: ${light[entity_id].turn_on},  
     turn_off: ${light[entity_id].turn_off},  
+    isOn: ${light[entity_id].isOn},
     toggle: ${light[entity_id].toggle},
     ${light[entity_id].getState},  
   },\n`, '')}}
@@ -61,6 +65,7 @@ export const switches: Switch<SwitchIDs> = {
     entity_id: "switch.${entity_id}",
     turn_on: ${switches[entity_id].turn_on},  
     turn_off: ${switches[entity_id].turn_off},  
+    isOn: ${switches[entity_id].isOn},
     toggle: ${switches[entity_id].toggle},
     ${switches[entity_id].getState},  
   },\n`, '')}}
@@ -75,6 +80,7 @@ export const binary_sensor: BinarySensor<BinarySensorIDs> = {
   ${Object.keys(binary_sensor).reduce((acc, entity_id)=>`${acc}
   ["${entity_id}"]: {
     entity_id: "binary_sensor.${entity_id}",
+    isOn: ${binary_sensor[entity_id].isOn},
     ${binary_sensor[entity_id].getState},  
   },\n`, '')}}
   `, e => {
