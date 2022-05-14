@@ -48,7 +48,8 @@ export type LightState = HassEntity & {
         supported_color_modes?: ColorModes[],
         min_mireds?: number,
         max_mireds?: number,
-        effect_list?: string[]
+        effect_list?: string[],
+        [key: string]: any
     },
 }
 
