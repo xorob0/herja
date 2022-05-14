@@ -36,7 +36,6 @@ const generateEntities: (props: Props) => void = ({config:{path}}) => {
             }
     })
 
-    console.log(light)
     fs.writeFile(`${path}/light.ts`,
         `import {callService, shadowState, Light} from "@homeassistant-node/main"
         export type LightIDs = "${Object.keys(light).join('" | "')}"
