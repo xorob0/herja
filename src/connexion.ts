@@ -32,14 +32,14 @@ export let callService: (
   throw new Error('Connection was not initialized');
 };
 
-export let stateListener: <T>(
-  callback: (event: StateChangeEvent<T>) => void,
+export let stateListener: (
+  callback: (event: StateChangeEvent) => void,
 ) => void = () => {
   throw new Error('Connection was not initialized');
 };
 
-export let eventListener: <T>(
-    callback: (event: StateChangeEvent<T>) => void,
+export let eventListener: (
+    callback: (event: StateChangeEvent) => void,
     eventType?: string
 ) => void = () => {
   throw new Error('Connection was not initialized');

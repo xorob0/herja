@@ -4,15 +4,15 @@ import {HassEntity, HassServiceTarget} from "home-assistant-js-websocket";
 import {isString} from "./utils/isString";
 import {isRegExp} from "util/types";
 
-type Dependency<T> = | EntityId
+type Dependency = | EntityId
     | RegExp
-    | ((event: StateChangeEvent<T>) => boolean)
+    | ((event: StateChangeEvent) => boolean)
     | HassEntity
     | HassServiceTarget
     | string
     | {eventType?:string}
 
-type Effect = <T = unknown>(callback: (event: StateChangeEvent) => void, dependencies:Dependency<T>[]) => void
+type Effect = (callback: (event: StateChangeEvent) => void, dependencies:Dependency[]) => void
 
 export const effect: Effect = (callback, dependencies) =>{
   dependencies.forEach(dependency => {
