@@ -45,6 +45,7 @@ export let eventListener: (
   throw new Error('Connection was not initialized');
 };
 
+
 export const configure = async ({
   url,
   access_token,
