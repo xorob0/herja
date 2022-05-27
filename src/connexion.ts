@@ -19,7 +19,7 @@ const ERR_INVALID_AUTH = 2;
 
 export let shadowState = {} as { [x in string]: HassEntity  };
 
-export type StateChangeEvent<T = unknown> = {
+export type StateChangeEvent<T = unknown> = Record<string, unknown> & {
   data: HassEntity & {new_state: HassEntity, old_state: HassEntity}
 };
 
