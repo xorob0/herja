@@ -36,7 +36,7 @@ const generateEntities: GenerateEntities = async ({ config: { path } }) => {
     if (domain === 'alarm_control_panel')
       alarm[name] = {
         getState: `get state() { return shadowState["${entity_id}"]}`,
-        isArmed: `() => shadowState["${entity_id}"].state.match(/$armed/)`,
+        isArmed: `() => !!shadowState["${entity_id}"].state.match(/^armed/)`,
         isDisarmed: `() => shadowState["${entity_id}"].state === 'disarmed'`,
         armHome: `(serviceData = {}) => callService("${domain}", 'alarm_arm_home', {code: process?.env?.ALARM_CODE, ...serviceData}, {entity_id: "${entity_id}"})`,
         armAway: `(serviceData = {}) => callService("${domain}", 'alarm_arm_away', {code: process?.env?.ALARM_CODE, ...serviceData}, {entity_id: "${entity_id}"})`,
@@ -51,7 +51,7 @@ const generateEntities: GenerateEntities = async ({ config: { path } }) => {
         open: `() => callService("${domain}", 'open_cover', undefined, {entity_id: "${entity_id}"})`,
         stop: `() => callService("${domain}", 'stop_cover', undefined, {entity_id: "${entity_id}"})`,
         toggle: `() => callService("${domain}", 'toggle_cover', undefined, {entity_id: "${entity_id}"})`,
-        setPosition: `(serviceData = {}) => callService("${domain}", 'set_cover_position', serviceData, {entity_id: "${entity_id}"})`,
+        setPosition: `(serviceData) => callService("${domain}", 'set_cover_position', serviceData, {entity_id: "${entity_id}"})`,
       }
     if (domain === 'person')
       person[name] = {
