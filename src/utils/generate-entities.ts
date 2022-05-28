@@ -16,6 +16,7 @@ const generateEntities: GenerateEntities = async ({ config: { path } }) => {
   let person: Record<string, any> = {};
   let binary_sensor: Record<string, any> = {};
   let switches: Record<string, any> = {};
+  let sensor: Record<string, any> = {};
 
   Object.keys(shadowState).forEach((entity_id) => {
     const domain = entity_id.split('.')[0];
@@ -25,6 +26,10 @@ const generateEntities: GenerateEntities = async ({ config: { path } }) => {
         getState: `get state() { return shadowState["${entity_id}"]}`,
         isBelowHorizon: `() => shadowState["${entity_id}"].state === "below_horizon"`,
         isAboveHorizon: `() => shadowState["${entity_id}"].state === "above_horizon"`,
+      }
+    if (domain === 'sensor')
+      sensor[name] = {
+        getState: `get state() { return shadowState["${entity_id}"]}`,
       }
     if (domain === 'person')
       person[name] = {
@@ -96,7 +101,7 @@ export const switches: Switch<SwitchIDs> = {
 
   const binarySensorFile = {
     path: `${path}/binary_sensor.ts`,
-    data: `import {callService, shadowState, BinarySensor} from "@herja/core"
+    data: `import {shadowState, BinarySensor} from "@herja/core"
         export type BinarySensorIDs = "${Object.keys(binary_sensor).join(
           '" | "',
         )}"
@@ -136,7 +141,7 @@ export const sun: Sun<SunIDs> = {
   const personFile = {
     path: `${path}/person.ts`,
     data: `import { shadowState, Person} from "@herja/core"
-        export type PersonIDs = "${Object.keys(sun).join(
+        export type PersonIDs = "${Object.keys(person).join(
       '" | "',
     )}"
 export const person: Person<PersonIDs> = {
@@ -152,7 +157,25 @@ export const person: Person<PersonIDs> = {
   `,
   };
 
-  return outputFiles([lightFile, switchFile, binarySensorFile, sunFile, personFile]);
+  const sensorFile = {
+    path: `${path}/sensor.ts`,
+    data: `import { shadowState, Sensor} from "@herja/core"
+        export type SensorIDs = "${Object.keys(sensor).join(
+      '" | "',
+    )}"
+export const sensor: Sensor<SensorIDs> = {
+  ${Object.keys(sensor).reduce(
+      (acc, entity_id) => `${acc}
+  ["${entity_id}"]: {
+    entity_id: "sensor.${entity_id}",
+    ${sensor[entity_id].getState},
+  },\n`,
+      '',
+    )}}
+  `,
+  };
+
+  return outputFiles([lightFile, switchFile, binarySensorFile, sunFile, personFile, sensorFile]);
 };
 
 export default generateEntities;
