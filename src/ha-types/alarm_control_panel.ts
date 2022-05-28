@@ -18,9 +18,9 @@ export type AlarmControlPanel<T extends string = string>  = {
         state: AlarmControlPanelState,
         isArmed: () => boolean,
         isDisarmed: () => boolean,
-        armAway: (option: ArmingOptions) => void,
-        armHome: (option: ArmingOptions) => void,
-        armNight: (option: ArmingOptions) => void,
-        disarm: (option: ArmingOptions) => void,
+        armAway: (option?: ArmingOptions) => void,
+        armHome: (option?: ArmingOptions) => void,
+        armNight: (option?: ArmingOptions) => void,
+        disarm: (option?: ArmingOptions) => void,
     }
 }
