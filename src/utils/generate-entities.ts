@@ -17,6 +17,8 @@ const generateEntities: GenerateEntities = async ({ config: { path } }) => {
   let binary_sensor: Record<string, any> = {};
   let switches: Record<string, any> = {};
   let sensor: Record<string, any> = {};
+  let cover: Record<string, any> = {};
+  let alarm: Record<string, any> = {};
 
   Object.keys(shadowState).forEach((entity_id) => {
     const domain = entity_id.split('.')[0];
@@ -30,6 +32,26 @@ const generateEntities: GenerateEntities = async ({ config: { path } }) => {
     if (domain === 'sensor')
       sensor[name] = {
         getState: `get state() { return shadowState["${entity_id}"]}`,
+      }
+    if (domain === 'alarm_control_panel')
+      alarm[name] = {
+        getState: `get state() { return shadowState["${entity_id}"]}`,
+        isArmed: `() => shadowState["${entity_id}"].state.match(/$armed/)`,
+        isDisarmed: `() => shadowState["${entity_id}"].state === 'disarmed'`,
+        armHome: `(serviceData = {}) => callService("${domain}", 'alarm_arm_home', {code: process?.env?.ALARM_CODE, ...serviceData}, {entity_id: "${entity_id}"})`,
+        armAway: `(serviceData = {}) => callService("${domain}", 'alarm_arm_away', {code: process?.env?.ALARM_CODE, ...serviceData}, {entity_id: "${entity_id}"})`,
+        armNight: `(serviceData = {}) => callService("${domain}", 'alarm_arm_night', {code: process?.env?.ALARM_CODE, ...serviceData}, {entity_id: "${entity_id}"})`,
+        disarm: `(serviceData = {}) => callService("${domain}", 'alarm_disarm', {code: process?.env?.ALARM_CODE, ...serviceData}, {entity_id: "${entity_id}"})`,
+      }
+    if (domain === 'cover')
+      cover[name] = {
+        getState: `get state() { return shadowState["${entity_id}"]}`,
+        isClosed: `() => shadowState["${entity_id}"].state === "closed"`,
+        close: `() => callService("${domain}", 'close_cover', undefined, {entity_id: "${entity_id}"})`,
+        open: `() => callService("${domain}", 'open_cover', undefined, {entity_id: "${entity_id}"})`,
+        stop: `() => callService("${domain}", 'stop_cover', undefined, {entity_id: "${entity_id}"})`,
+        toggle: `() => callService("${domain}", 'toggle_cover', undefined, {entity_id: "${entity_id}"})`,
+        setPosition: `(serviceData = {}) => callService("${domain}", 'set_cover_position', serviceData, {entity_id: "${entity_id}"})`,
       }
     if (domain === 'person')
       person[name] = {
@@ -96,6 +118,51 @@ export const switches: Switch<SwitchIDs> = {
   },\n`,
     '',
   )}}
+  `,
+  };
+
+
+  const coverFile = {
+    path: `${path}/cover.ts`,
+    data: `import {callService, shadowState, Cover} from "@herja/core"
+        export type CoverIDs = "${Object.keys(cover).join('" | "')}"
+export const cover: Cover<CoverIDs> = {
+  ${Object.keys(cover).reduce(
+      (acc, entity_id) => `${acc}
+  ["${entity_id}"]: {
+    entity_id: "cover.${entity_id}",
+    isClosed: ${cover[entity_id].isClosed},
+    close: ${cover[entity_id].close},
+    open: ${cover[entity_id].open},
+    stop: ${cover[entity_id].stop},
+    toggle: ${cover[entity_id].toggle},
+    setPosition: ${cover[entity_id].setPosition},
+    ${cover[entity_id].getState},
+  },\n`,
+      '',
+    )}}
+  `,
+  };
+
+  const alarmFile = {
+    path: `${path}/alarm_control_panel.ts`,
+    data: `import {callService, shadowState, AlarmControlPanel} from "@herja/core"
+        export type AlarmControlPanelIDs = "${Object.keys(alarm).join('" | "')}"
+export const alarm_control_panel: AlarmControlPanel<AlarmControlPanelIDs> = {
+  ${Object.keys(alarm).reduce(
+      (acc, entity_id) => `${acc}
+  ["${entity_id}"]: {
+    entity_id: "alarm_control_panel.${entity_id}",
+    isArmed: ${alarm[entity_id].isArmed},
+    isDisarmed: ${alarm[entity_id].isDisarmed},
+    armAway: ${alarm[entity_id].armAway},
+    armHome: ${alarm[entity_id].armHome},
+    armNight: ${alarm[entity_id].armNight},
+    disarm: ${alarm[entity_id].disarm},
+    ${alarm[entity_id].getState},
+  },\n`,
+      '',
+    )}}
   `,
   };
 
@@ -175,7 +242,7 @@ export const sensor: Sensor<SensorIDs> = {
   `,
   };
 
-  return outputFiles([lightFile, switchFile, binarySensorFile, sunFile, personFile, sensorFile]);
+  return outputFiles([lightFile, switchFile, binarySensorFile, sunFile, personFile, sensorFile, alarmFile, coverFile]);
 };
 
 export default generateEntities;
