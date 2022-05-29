@@ -19,6 +19,7 @@ const generateEntities: GenerateEntities = async ({ config: { path } }) => {
   let sensor: Record<string, any> = {};
   let cover: Record<string, any> = {};
   let alarm: Record<string, any> = {};
+  let device_tracker: Record<string, any> = {};
 
   Object.keys(shadowState).forEach((entity_id) => {
     const domain = entity_id.split('.')[0];
@@ -32,6 +33,11 @@ const generateEntities: GenerateEntities = async ({ config: { path } }) => {
     if (domain === 'sensor')
       sensor[name] = {
         getState: `get state() { return shadowState["${entity_id}"]}`,
+      }
+    if (domain === 'device_tracker')
+      device_tracker[name] = {
+        getState: `get state() { return shadowState["${entity_id}"]}`,
+        isHome: `() => shadowState["${entity_id}"].state === 'home'`,
       }
     if (domain === 'alarm_control_panel')
       alarm[name] = {
@@ -205,6 +211,25 @@ export const sun: Sun<SunIDs> = {
   `,
   };
 
+  const deviceTrackerFile = {
+    path: `${path}/person_tracker.ts`,
+    data: `import { shadowState, DeviceTracker} from "@herja/core"
+        export type DeviceTrackerIDs = "${Object.keys(device_tracker).join(
+      '" | "',
+    )}"
+export const device_tracker: DeviceTracker<DeviceTrackerIDs> = {
+  ${Object.keys(device_tracker).reduce(
+      (acc, entity_id) => `${acc}
+  ["${entity_id}"]: {
+    entity_id: "sun.${entity_id}",
+    isHome: ${device_tracker[entity_id].isHome},
+    ${device_tracker[entity_id].getState},
+  },\n`,
+      '',
+    )}}
+  `,
+  };
+
   const personFile = {
     path: `${path}/person.ts`,
     data: `import { shadowState, Person} from "@herja/core"
@@ -242,7 +267,7 @@ export const sensor: Sensor<SensorIDs> = {
   `,
   };
 
-  return outputFiles([lightFile, switchFile, binarySensorFile, sunFile, personFile, sensorFile, alarmFile, coverFile]);
+  return outputFiles([lightFile, switchFile, binarySensorFile, sunFile, personFile, sensorFile, alarmFile, coverFile, deviceTrackerFile]);
 };
 
 export default generateEntities;
