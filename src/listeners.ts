@@ -12,7 +12,7 @@ type Dependency = | EntityId
     | string
     | {eventType?:string}
 
-type Effect = (callback: (event: StateChangeEvent) => void, dependencies:Dependency[]) => void
+type Effect = (callback: (event: StateChangeEvent) => void|Promise<void>, dependencies:Dependency[]) => void
 
 export const effect: Effect = (callback, dependencies) =>{
   dependencies.forEach(dependency => {
