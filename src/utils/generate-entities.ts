@@ -212,7 +212,7 @@ export const sun: Sun<SunIDs> = {
   };
 
   const deviceTrackerFile = {
-    path: `${path}/person_tracker.ts`,
+    path: `${path}/device_tracker.ts`,
     data: `import { shadowState, DeviceTracker} from "@herja/core"
         export type DeviceTrackerIDs = "${Object.keys(device_tracker).join(
       '" | "',
