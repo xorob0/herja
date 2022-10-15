@@ -1,15 +1,37 @@
 import {HassEntity} from "home-assistant-js-websocket";
+import { HAEntityTypes } from "./entityTypes";
 
-export type CoverEntityId = string//`binary_sensor.${string}`
+export type CoverEntityId = `${HAEntityTypes.cover}.${string}`
 
-export type SetPositionOption = {
-    position: number
+
+export enum CoverStateState {
+    OPEN="open",
+    CLOSED="closed",
+    OPENING = "opening",
+    CLOSING = "closing",
 }
 
-//TODO abstract this
+export enum CoverDeviceClasses {
+    AWNING = "awning",
+    BLIND = "blind",
+    CURTAIN = "curtain",
+    DOOR = "door",
+    GARAGE = "garage",
+    GATE = "gate",
+    SHADE = "shade",
+    SHUTTER = "shutter",
+    WINDOW = "window",
+}
+
 export type CoverState = HassEntity & {
     entity_id: CoverEntityId,
-    state: "open" | "closed" | "opening" | "closing" | "unavailable" | string,
+    state: CoverStateState,
+    current_cover_position?: number,
+    current_cover_tilt_position?: number,
+    is_opening?: boolean,
+    is_closing?: boolean,
+    is_closed?: boolean,
+    device_class?: CoverDeviceClasses,
 }
 
 export type Cover<T extends string = string>  = {
@@ -18,9 +40,13 @@ export type Cover<T extends string = string>  = {
         state: CoverState,
         isClosed: () => boolean,
         open: () => void,
+        openTilt: () => void,
         close: () => void,
+        closeTilt: () => void,
         stop: () => void,
+        stopTilt: () => void,
         toggle: () => void,
-        setPosition: (option: SetPositionOption) => void,
+        setPosition: (position: number) => void,
+        setTiltPosition: (position: number) => void,
     }
 }

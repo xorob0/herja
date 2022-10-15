@@ -1,6 +1,5 @@
 export * from './light'
 export * from './switch'
-export * from './common'
 export * from './binary_sensor'
 export * from './sun'
 export * from './person'

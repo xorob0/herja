@@ -1,15 +1,28 @@
-import {HassEntity} from "home-assistant-js-websocket";
+import { HassEntity } from "home-assistant-js-websocket";
+import { HAEntityTypes } from "./entityTypes";
 
-export type AlarmControlPanelEntityId = string//`binary_sensor.${string}`
+export type AlarmControlPanelEntityId = `${HAEntityTypes.alarm_control_panel}.${string}`
 
 export type ArmingOptions = {
     code?: string
 }
 
-//TODO abstract this
+export enum AlarmControlPanelStateState {
+    DISARMED = "disarmed",
+    ARMED_HOME = "armed_home",
+    ARMED_AWAY = "armed_away",
+    ARMED_NIGHT = "armed_night",
+    ARMED_VACATION = "armed_vacation",
+    ARMED_CUSTOMBYPASS = "armed_custom_bypass",
+    PENDING = "pending",
+    ARMING = "arming",
+    DISARMING = "disarming",
+    TRIGGERED = "triggered"
+}
+
 export type AlarmControlPanelState = HassEntity & {
     entity_id: AlarmControlPanelEntityId,
-    state: "disarmed" | "armed_home" | "armed_away" | "armed_night" | "unavailable" | string,
+    state: AlarmControlPanelStateState
 }
 
 export type AlarmControlPanel<T extends string = string>  = {
@@ -19,8 +32,11 @@ export type AlarmControlPanel<T extends string = string>  = {
         isArmed: () => boolean,
         isDisarmed: () => boolean,
         armAway: (option?: ArmingOptions) => void,
+        armCustomBypass: (option?: ArmingOptions) => void,
         armHome: (option?: ArmingOptions) => void,
         armNight: (option?: ArmingOptions) => void,
+        armVacation: (option?: ArmingOptions) => void,
+        trigger: (option?: ArmingOptions) => void,
         disarm: (option?: ArmingOptions) => void,
     }
 }
