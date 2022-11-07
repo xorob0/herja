@@ -1,5 +1,6 @@
 import { outputFile } from 'fs-extra';
 import { shadowState } from '../index';
+import { HAEntityTypes } from "../ha-types/entityTypes";
 
 type Props = {
   config: {
@@ -10,20 +11,64 @@ type Props = {
 type GenerateEntities = (props: Props) => Promise<void>;
 
 const generateEntities: GenerateEntities = async ({ config: { path } }) => {
-  // TODO add type for domains later
+  let air_quality: Record<string, any> = {};
+  let alarm_control_panel: Record<string, any> = {};
+  let binary_sensor: Record<string, any> = {};
+  let button: Record<string, any> = {};
+  let calendar: Record<string, any> = {};
+  let camera: Record<string, any> = {};
+  let climate: Record<string, any> = {};
+  let cover: Record<string, any> = {};
+  let fan: Record<string, any> = {};
   let light: Record<string, any> = {};
   let sun: Record<string, any> = {};
   let person: Record<string, any> = {};
-  let binary_sensor: Record<string, any> = {};
-  let switches: Record<string, any> = {};
   let sensor: Record<string, any> = {};
-  let cover: Record<string, any> = {};
-  let alarm: Record<string, any> = {};
+  let switches: Record<string, any> = {};
+  let media_player: Record<string, any> = {};
   let device_tracker: Record<string, any> = {};
 
   Object.keys(shadowState).forEach((entity_id) => {
     const domain = entity_id.split('.')[0];
     const name = entity_id.split('.')[1];
+    if (domain === HAEntityTypes.air_quality)
+      air_quality[name] = {
+        getState: `get state() { return shadowState["${entity_id}"]}`,
+      }
+    if (domain === HAEntityTypes.alarm_control_panel)
+      alarm_control_panel[name] = {
+        getState: `get state() { return shadowState["${entity_id}"]}`,
+        isArmed: `() => !!shadowState["${entity_id}"].state.match(/^armed/)`,
+        isDisarmed: `() => shadowState["${entity_id}"].state === 'disarmed'`,
+        armHome: `(serviceData = {}) => callService("${domain}", 'alarm_arm_home', {code: process?.env?.ALARM_CODE, ...serviceData}, {entity_id: "${entity_id}"})`,
+        armAway: `(serviceData = {}) => callService("${domain}", 'alarm_arm_away', {code: process?.env?.ALARM_CODE, ...serviceData}, {entity_id: "${entity_id}"})`,
+        armNight: `(serviceData = {}) => callService("${domain}", 'alarm_arm_night', {code: process?.env?.ALARM_CODE, ...serviceData}, {entity_id: "${entity_id}"})`,
+        disarm: `(serviceData = {}) => callService("${domain}", 'alarm_disarm', {code: process?.env?.ALARM_CODE, ...serviceData}, {entity_id: "${entity_id}"})`,
+      }
+    if (domain === HAEntityTypes.binary_sensor)
+      binary_sensor[name] = {
+        getState: `get state() { return shadowState["${entity_id}"]}`,
+        isOn: `() => shadowState["${entity_id}"].state === "on"`,
+      }
+    if (domain === HAEntityTypes.button)
+      button[name] = {
+        getState: `get state() { return shadowState["${entity_id}"]}`,
+        press: `(serviceData = {}) => callService("${domain}", 'press', undefined, {entity_id: "${entity_id}"})`,
+      }
+    if (domain === HAEntityTypes.calendar)
+      calendar[name] = {
+        getState: `get state() { return shadowState["${entity_id}"]}`,
+      }
+    if (domain === HAEntityTypes.calendar)
+      calendar[name] = {
+        getState: `get state() { return shadowState["${entity_id}"]}`,
+      }
+    if (domain === HAEntityTypes.media_player)
+      media_player[name] = {
+        getState: `get state() { return shadowState["${entity_id}"]}`,
+        turnOn: `(serviceData = {}) => callService("${domain}", 'turn_on', undefined, {entity_id: "${entity_id}"})`,
+        turnOff: `(serviceData = {}) => callService("${domain}", 'turn_off', undefined, {entity_id: "${entity_id}"})`,
+      }
     if (domain === 'sun')
       sun[name] = {
         getState: `get state() { return shadowState["${entity_id}"]}`,
@@ -38,16 +83,6 @@ const generateEntities: GenerateEntities = async ({ config: { path } }) => {
       device_tracker[name] = {
         getState: `get state() { return shadowState["${entity_id}"]}`,
         isHome: `() => shadowState["${entity_id}"].state === 'home'`,
-      }
-    if (domain === 'alarm_control_panel')
-      alarm[name] = {
-        getState: `get state() { return shadowState["${entity_id}"]}`,
-        isArmed: `() => !!shadowState["${entity_id}"].state.match(/^armed/)`,
-        isDisarmed: `() => shadowState["${entity_id}"].state === 'disarmed'`,
-        armHome: `(serviceData = {}) => callService("${domain}", 'alarm_arm_home', {code: process?.env?.ALARM_CODE, ...serviceData}, {entity_id: "${entity_id}"})`,
-        armAway: `(serviceData = {}) => callService("${domain}", 'alarm_arm_away', {code: process?.env?.ALARM_CODE, ...serviceData}, {entity_id: "${entity_id}"})`,
-        armNight: `(serviceData = {}) => callService("${domain}", 'alarm_arm_night', {code: process?.env?.ALARM_CODE, ...serviceData}, {entity_id: "${entity_id}"})`,
-        disarm: `(serviceData = {}) => callService("${domain}", 'alarm_disarm', {code: process?.env?.ALARM_CODE, ...serviceData}, {entity_id: "${entity_id}"})`,
       }
     if (domain === 'cover')
       cover[name] = {
@@ -153,19 +188,19 @@ export const cover: Cover<CoverIDs> = {
   const alarmFile = {
     path: `${path}/alarm_control_panel.ts`,
     data: `import {callService, shadowState, AlarmControlPanel} from "@herja/core"
-        export type AlarmControlPanelIDs = "${Object.keys(alarm).join('" | "')}"
+        export type AlarmControlPanelIDs = "${Object.keys(alarm_control_panel).join('" | "')}"
 export const alarm_control_panel: AlarmControlPanel<AlarmControlPanelIDs> = {
-  ${Object.keys(alarm).reduce(
+  ${Object.keys(alarm_control_panel).reduce(
       (acc, entity_id) => `${acc}
   ["${entity_id}"]: {
     entity_id: "alarm_control_panel.${entity_id}",
-    isArmed: ${alarm[entity_id].isArmed},
-    isDisarmed: ${alarm[entity_id].isDisarmed},
-    armAway: ${alarm[entity_id].armAway},
-    armHome: ${alarm[entity_id].armHome},
-    armNight: ${alarm[entity_id].armNight},
-    disarm: ${alarm[entity_id].disarm},
-    ${alarm[entity_id].getState},
+    isArmed: ${alarm_control_panel[entity_id].isArmed},
+    isDisarmed: ${alarm_control_panel[entity_id].isDisarmed},
+    armAway: ${alarm_control_panel[entity_id].armAway},
+    armHome: ${alarm_control_panel[entity_id].armHome},
+    armNight: ${alarm_control_panel[entity_id].armNight},
+    disarm: ${alarm_control_panel[entity_id].disarm},
+    ${alarm_control_panel[entity_id].getState},
   },\n`,
       '',
     )}}
@@ -267,7 +302,27 @@ export const sensor: Sensor<SensorIDs> = {
   `,
   };
 
-  return outputFiles([lightFile, switchFile, binarySensorFile, sunFile, personFile, sensorFile, alarmFile, coverFile, deviceTrackerFile]);
+  const mediaPlayerFile = {
+    path: `${path}/media_player.ts`,
+    data: `import { shadowState, MediaPlayer} from "@herja/core"
+        export type MediaPlayerIDs = "${Object.keys(media_player).join(
+      '" | "',
+    )}"
+export const sensor: MediaPlayer<MediaPlayerIDs> = {
+  ${Object.keys(media_player).reduce(
+      (acc, entity_id) => `${acc}
+  ["${entity_id}"]: {
+    entity_id: "sensor.${entity_id}",
+    ${media_player[entity_id].getState},
+    ${media_player[entity_id].turnOn},
+    ${media_player[entity_id].turnOff},
+  },\n`,
+      '',
+    )}}
+  `,
+  };
+
+  return outputFiles([lightFile, switchFile, binarySensorFile, sunFile, personFile, sensorFile, alarmFile, coverFile, deviceTrackerFile, mediaPlayerFile]);
 };
 
 export default generateEntities;

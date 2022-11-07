@@ -1,11 +1,9 @@
 import {eventListener, StateChangeEvent, stateListener} from './connexion';
-import { EntityId } from './ha-types';
 import {HassEntity, HassServiceTarget} from "home-assistant-js-websocket";
 import {isString} from "./utils/isString";
 import {isRegExp} from "util/types";
 
-type Dependency = | EntityId
-    | RegExp
+type Dependency = | RegExp
     | ((event: StateChangeEvent) => boolean)
     | HassEntity
     | HassServiceTarget
