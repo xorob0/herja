@@ -1,10 +1,9 @@
 import {HassEntity} from "home-assistant-js-websocket";
 import { HAEntityTypes } from "./entityTypes";
-import { CalendarEntityId } from "./calendar";
 
 export type MediaPlayerEntityId = `${HAEntityTypes.calendar}.${string}`
 
-export enum CalendarStateState {
+export enum MediaPlayerStateState {
     ON="on",
     OFF="off",
     IDLE="idle",
@@ -16,7 +15,7 @@ export enum CalendarStateState {
 }
 
 export type MediaPlayerState = HassEntity & {
-    entity_id: CalendarEntityId,
+    entity_id: MediaPlayerEntityId,
     supported_features: number,
     sound_mode: string,
     sound_mode_list: string[],
@@ -26,7 +25,7 @@ export type MediaPlayerState = HassEntity & {
     media_image_remotely_accessible: boolean,
     device_class: string,
     group_members: string[],
-    state: CalendarStateState,
+    state: MediaPlayerStateState,
 }
 
 export type MediaPlayer<T extends string = string>  = {

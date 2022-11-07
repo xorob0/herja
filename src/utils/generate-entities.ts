@@ -304,18 +304,18 @@ export const sensor: Sensor<SensorIDs> = {
 
   const mediaPlayerFile = {
     path: `${path}/media_player.ts`,
-    data: `import { shadowState, MediaPlayer} from "@herja/core"
+    data: `import { shadowState, MediaPlayer, callService} from "@herja/core"
         export type MediaPlayerIDs = "${Object.keys(media_player).join(
       '" | "',
     )}"
-export const sensor: MediaPlayer<MediaPlayerIDs> = {
+export const media_player: MediaPlayer<MediaPlayerIDs> = {
   ${Object.keys(media_player).reduce(
       (acc, entity_id) => `${acc}
   ["${entity_id}"]: {
     entity_id: "sensor.${entity_id}",
     ${media_player[entity_id].getState},
-    ${media_player[entity_id].turnOn},
-    ${media_player[entity_id].turnOff},
+    turnOn: ${media_player[entity_id].turnOn},
+    turnOff: ${media_player[entity_id].turnOff},
   },\n`,
       '',
     )}}
