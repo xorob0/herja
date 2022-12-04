@@ -1,4 +1,3 @@
-import {HassEntity} from "home-assistant-js-websocket";
 import { HAEntityTypes } from "./entityTypes";
 
 export type SensorEntityId = `${HAEntityTypes.sensor}.${string}`
@@ -52,7 +51,7 @@ export enum SensorStateClass {
 export type SensorState = "unavailable"| string | number | Date
 
 //TODO abstract this
-export type SensorProperties = HassEntity & {
+export type SensorProperties = {
     state: SensorState,
     attributes: {
         device_class?: SensorDeviceClass

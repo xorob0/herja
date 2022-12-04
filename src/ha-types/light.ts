@@ -30,13 +30,15 @@ export type LightTurnOnAttributes = {
     rgbw_color?: [number, number, number, number],
     rgbww_color?: [number, number, number, number, number],
     xy_color?: [number, number],
+    transition?: number,
 }
 
 export type LightEntity = {
     entity_id: LightEntityId,
     entity: LightProperties,
-    turnOn: (attributes: LightTurnOnAttributes)=> void,
+    turnOn: (attributes?: LightTurnOnAttributes)=> void,
     turnOff: ()=> void,
+    toggle: (attributes?: LightTurnOnAttributes)=> void,
 }
 
 export type Light<T extends string = string>  = {

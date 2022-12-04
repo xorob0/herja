@@ -32,7 +32,7 @@ export enum BinarySensorDeviceClass {
     VIBRATION="vibration",
     WINDOW="window"
 }
-export type BinarySensorProperties = {state: boolean, attributes: {device_class: BinarySensorDeviceClass}}
+export type BinarySensorProperties ={state: boolean, attributes: {device_class: BinarySensorDeviceClass, [x:string]: string}}
 
 export type BinarySensorEntity =  {
     entity_id: BinarySensorEntityId,
