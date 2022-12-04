@@ -1,13 +1,14 @@
-import { HassEntity } from "home-assistant-js-websocket";
 import { HAEntityTypes } from "./entityTypes";
 
 export type AlarmControlPanelEntityId = `${HAEntityTypes.alarm_control_panel}.${string}`
+
+export type CodeFormat = "number" | "text"
 
 export type ArmingOptions = {
     code?: string
 }
 
-export enum AlarmControlPanelStateState {
+export enum AlarmControlPanelState {
     DISARMED = "disarmed",
     ARMED_HOME = "armed_home",
     ARMED_AWAY = "armed_away",
@@ -20,23 +21,28 @@ export enum AlarmControlPanelStateState {
     TRIGGERED = "triggered"
 }
 
-export type AlarmControlPanelState = HassEntity & {
+export type AlarmControlPanelProperties = {
+    state: AlarmControlPanelState
+    attributes: {
+        code_format: string,
+        changed_by: string,
+    }
+}
+
+export type AlarmControlPanelEntity = {
     entity_id: AlarmControlPanelEntityId,
-    state: AlarmControlPanelStateState
+    entity: AlarmControlPanelProperties,
+    isArmed: () => boolean,
+    isDisarmed: () => boolean,
+    armAway: (option?: ArmingOptions) => void,
+    armCustomBypass: (option?: ArmingOptions) => void,
+    armHome: (option?: ArmingOptions) => void,
+    armNight: (option?: ArmingOptions) => void,
+    armVacation: (option?: ArmingOptions) => void,
+    trigger: (option?: ArmingOptions) => void,
+    disarm: (option?: ArmingOptions) => void,
 }
 
 export type AlarmControlPanel<T extends string = string>  = {
-    [entity_id in T]: {
-        entity_id: AlarmControlPanelEntityId,
-        state: AlarmControlPanelState,
-        isArmed: () => boolean,
-        isDisarmed: () => boolean,
-        armAway: (option?: ArmingOptions) => void,
-        armCustomBypass: (option?: ArmingOptions) => void,
-        armHome: (option?: ArmingOptions) => void,
-        armNight: (option?: ArmingOptions) => void,
-        armVacation: (option?: ArmingOptions) => void,
-        trigger: (option?: ArmingOptions) => void,
-        disarm: (option?: ArmingOptions) => void,
-    }
+    [entity_id in T]: AlarmControlPanelEntity
 }

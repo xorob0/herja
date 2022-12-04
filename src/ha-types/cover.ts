@@ -3,8 +3,7 @@ import { HAEntityTypes } from "./entityTypes";
 
 export type CoverEntityId = `${HAEntityTypes.cover}.${string}`
 
-
-export enum CoverStateState {
+export enum CoverState {
     OPEN="open",
     CLOSED="closed",
     OPENING = "opening",
@@ -23,30 +22,33 @@ export enum CoverDeviceClasses {
     WINDOW = "window",
 }
 
-export type CoverState = HassEntity & {
+export type CoverProperties = HassEntity & {
+    state: CoverState,
+    attributes: {
+        current_cover_position?: number,
+        current_cover_tilt_position?: number,
+        is_opening?: boolean,
+        is_closing?: boolean,
+        is_closed?: boolean,
+        device_class?: CoverDeviceClasses,
+    }
+}
+
+export type CoverEntity = {
     entity_id: CoverEntityId,
-    state: CoverStateState,
-    current_cover_position?: number,
-    current_cover_tilt_position?: number,
-    is_opening?: boolean,
-    is_closing?: boolean,
-    is_closed?: boolean,
-    device_class?: CoverDeviceClasses,
+    entity: CoverProperties,
+    isClosed: () => boolean,
+    open: () => void,
+    openTilt: () => void,
+    close: () => void,
+    closeTilt: () => void,
+    stop: () => void,
+    stopTilt: () => void,
+    toggle: () => void,
+    setPosition: (position: number) => void,
+    setTiltPosition: (position: number) => void,
 }
 
 export type Cover<T extends string = string>  = {
-    [entity_id in T]: {
-        entity_id: CoverEntityId,
-        state: CoverState,
-        isClosed: () => boolean,
-        open: () => void,
-        openTilt: () => void,
-        close: () => void,
-        closeTilt: () => void,
-        stop: () => void,
-        stopTilt: () => void,
-        toggle: () => void,
-        setPosition: (position: number) => void,
-        setTiltPosition: (position: number) => void,
-    }
+    [entity_id in T]: CoverEntity
 }

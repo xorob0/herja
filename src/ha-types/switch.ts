@@ -1,26 +1,24 @@
 import {HassEntity} from "home-assistant-js-websocket";
+import { HAEntityTypes } from "./entityTypes";
 
-export type SwitchEntityId = string //`switch.${string}`
-export type SwitchTurnOn = () => void
+export type SwitchEntityId = `${HAEntityTypes.switch}.${string}`
 
-export type SwitchToggle = () => void
-
-export type SwitchTurnOff = () => void
-
-//TODO abstract this
-export type SwitchState = HassEntity & {
-    entity_id: SwitchEntityId,
-    state: "on" | "off" | "unavailable"| string,
+export type SwitchProperties = HassEntity & {
+    state: boolean,
+    attributes: {
+        is_on?: boolean,
+    }
 }
 
+export type SwitchEntity = {
+    entity_id: SwitchEntityId,
+    entity: SwitchProperties,
+    turnOn: ()=> void,
+    turnOff: ()=> void,
+    toggle: ()=> void,
+    isOn: ()=> boolean
+}
 
 export type Switch<T extends string = string>  = {
-    [entity_id in T]: {
-        entity_id: SwitchEntityId,
-        state: SwitchState,
-        turn_on: SwitchTurnOn,
-        turn_off: SwitchTurnOff,
-        toggle: SwitchToggle,
-        isOn: ()=> boolean
-    }
+    [entity_id in T]: SwitchEntity
 }

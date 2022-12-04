@@ -8,15 +8,19 @@ export enum ButtonStateDeviceClasses {
 }
 
 //TODO maybe add icon and name for all entities ?
-export type ButtonState = HassEntity & {
+export type ButtonProperties = HassEntity & {
+    state: unknown,
+    attributes: {
+        device_class?: ButtonStateDeviceClasses,
+    }
+}
+
+export type ButtonEntity = {
     entity_id: ButtonEntityId,
-    device_class?: ButtonStateDeviceClasses
+    entity: ButtonProperties,
+    press: ()=> Promise<unknown>
 }
 
 export type Button<T extends string = string>  = {
-    [entity_id in T]: {
-        entity_id: ButtonEntityId,
-        state: ButtonState,
-        press: ()=> boolean
-    }
+    [entity_id in T]: ButtonEntity
 }

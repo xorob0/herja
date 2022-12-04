@@ -1,17 +1,18 @@
 import {HassEntity} from "home-assistant-js-websocket";
+import { HAEntityTypes } from "./entityTypes";
 
-export type PersonId = string//`binary_sensor.${string}`
+export type PersonId =`${HAEntityTypes.person}.${string}`
 
-//TODO abstract this
-export type PersonState = HassEntity & {
-    entity_id: PersonId,
+export type PersonProperties = HassEntity & {
     state: "home" | "not_home" | "unavailable"| string,
 }
 
+export type PersonEntity = {
+    entity_id: PersonId,
+    entity: PersonProperties,
+    isHome: ()=> boolean
+}
+
 export type Person<T extends string = string>  = {
-    [entity_id in T]: {
-        entity_id: PersonId,
-        state: PersonState,
-        isHome: ()=> boolean
-    }
+    [entity_id in T]: PersonEntity
 }

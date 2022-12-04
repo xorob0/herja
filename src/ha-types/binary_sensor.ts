@@ -1,4 +1,3 @@
-import {HassEntity} from "home-assistant-js-websocket";
 import { HAEntityTypes } from "./entityTypes";
 
 export type BinarySensorEntityId = `${HAEntityTypes.binary_sensor}.${string}`
@@ -33,16 +32,20 @@ export enum BinarySensorDeviceClass {
     VIBRATION="vibration",
     WINDOW="window"
 }
-export type BinarySensorState = HassEntity & {
+export type BinarySensorProperties = {state: boolean, attributes: {device_class: BinarySensorDeviceClass}}
+
+export type BinarySensorEntity =  {
     entity_id: BinarySensorEntityId,
-    state: boolean,
-    device_class?: BinarySensorDeviceClass
+    entity: BinarySensorProperties
+    isOn: ()=> boolean
+    isOff: ()=> boolean
+}
+
+export const BinarySensorStateMapper:Record<string, boolean|undefined> = {
+    "on": true,
+    "off": false,
 }
 
 export type BinarySensor<T extends string = string>  = {
-    [entity_id in T]: {
-        entity_id: BinarySensorEntityId,
-        state: BinarySensorState,
-        isOn: ()=> boolean
-    }
+    [entity_id in T]: BinarySensorEntity
 }

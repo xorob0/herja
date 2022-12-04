@@ -23,6 +23,7 @@
   "scripts": {
     "build": "tsup src/index.ts --minify --clean --dts --splitting",
     "dev": "tsup src/index.ts --clean --watch src --dts",
+    "generate": "tsup-node src/generate.ts",
     "lint": "eslint src/**/*.ts",
     "test": "vitest --global test.ts",
     "format": "prettier --write 'src/**/*.{js,ts}'",

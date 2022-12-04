@@ -5,11 +5,10 @@ import {
   ConnectionOptions,
   createConnection,
   getStates as gs,
-  HassEntity,
   HassServiceTarget,
   HaWebSocket,
 } from 'home-assistant-js-websocket';
-import generateEntities from './utils/generate-entities';
+import { BetterHassStateProperties } from "./ha-types";
 
 const MSG_TYPE_AUTH_REQUIRED = 'auth_required';
 const MSG_TYPE_AUTH_INVALID = 'auth_invalid';
@@ -17,10 +16,10 @@ const MSG_TYPE_AUTH_OK = 'auth_ok';
 const ERR_CANNOT_CONNECT = 1;
 const ERR_INVALID_AUTH = 2;
 
-export let shadowState = {} as { [x in string]: HassEntity };
+export let shadowState = {} as { [x in string]:  BetterHassStateProperties };
 
 export type StateChangeEvent = {
-  data: HassEntity & {new_state: HassEntity, old_state: HassEntity} & Record<string, unknown>
+  data: BetterHassStateProperties & {new_state: BetterHassStateProperties, old_state: BetterHassStateProperties} & Record<string, unknown>
 };
 
 export let callService: (
@@ -46,7 +45,7 @@ export let eventListener: (
 };
 
 
-export const configure = async ({
+export const connect = async ({
   url,
   access_token,
   path,
@@ -209,6 +208,15 @@ export const configure = async ({
 
   // Init state
   const states = await gs(connection);
+  return { states, connection };
+};
+
+export const configure = async (config: {
+  url: string;
+  access_token: string;
+  path?: string;
+}) => {
+  const { states, connection } = await connect(config);
   shadowState = states.reduce(
     (acc, entity) => ({ ...acc, [entity.entity_id]: entity }),
     {},
@@ -216,11 +224,5 @@ export const configure = async ({
   stateListener((event) => {
     shadowState[event.data.entity_id] = event.data.new_state;
   });
-
-  if (path) {
-    await generateEntities({ config: { path } });
-    console.log('Entites generated');
-  }
-
   return connection;
 };

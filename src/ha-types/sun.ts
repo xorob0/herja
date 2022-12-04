@@ -1,18 +1,24 @@
 import {HassEntity} from "home-assistant-js-websocket";
+import { HAEntityTypes } from "./entityTypes";
 
-export type SunId = string//`binary_sensor.${string}`
+export type SunId = `${HAEntityTypes.sun}.${string}`
 
-//TODO abstract this
-export type SunState = HassEntity & {
+export enum SunState {
+    ABOVE_HORIZON = "above_horizon",
+    BELOW_HORIZON = "below_horizon",
+}
+
+export type SunProperties = HassEntity & {
+    state: SunState,
+}
+
+export type SunEntity = {
     entity_id: SunId,
-    state: "below_horizon" | "above_horizon" | "unavailable"| string,
+    entity: SunProperties,
+    isAboveHorizon: ()=> boolean,
+    isBelowHorizon: ()=> boolean
 }
 
 export type Sun<T extends string = string>  = {
-    [entity_id in T]: {
-        entity_id: SunId,
-        state: SunState,
-        isAboveHorizon: ()=> boolean,
-        isBelowHorizon: ()=> boolean
-    }
+    [entity_id in T]: SunEntity
 }

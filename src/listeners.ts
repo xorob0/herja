@@ -12,6 +12,7 @@ type Dependency = | RegExp
 
 type Effect = (callback: (event: StateChangeEvent) => void|Promise<void>, dependencies:Dependency[]) => void
 
+//TODO add timer support and cron support
 export const effect: Effect = (callback, dependencies) =>{
   dependencies.forEach(dependency => {
     if(isString(dependency)){

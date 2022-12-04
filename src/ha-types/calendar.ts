@@ -4,16 +4,18 @@ import { HAEntityTypes } from "./entityTypes";
 export type CalendarEntityId = `${HAEntityTypes.calendar}.${string}`
 
 
-export type CalendarState = HassEntity & {
-    entity_id: CalendarEntityId,
-    event: unknown,
+export type CalendarProperties = HassEntity & {
     state: boolean,
+    attributes: {
+        event: unknown,
+    }
+}
+
+export type CalendarEntity = {
+    entity_id: CalendarEntityId,
+    entity: CalendarProperties,
 }
 
 export type Calendar<T extends string = string>  = {
-    [entity_id in T]: {
-        entity_id: CalendarEntityId,
-        state: CalendarState,
-        press: ()=> boolean
-    }
+    [entity_id in T]: CalendarEntity
 }
