@@ -15,9 +15,9 @@ export const lightHandler = (entity: {entity_id:string}) =>{
   light[entity.entity_id.split('.')[1]] = {
     entity_id: `entity_id: "${entity.entity_id}"`,
     entity: `get entity() { return {state: shadowState["${entity.entity_id}"].state, attributes: shadowState["${entity.entity_id}"].attributes} as LightProperties}`,
-    turnOn: `turnOn(attributes: LightTurnOnAttributes) { return callService("${HAEntityTypes.light}", "turn_on", attributes || {}, {entity_id: "${entity.entity_id.split('.')[1]}"})}`,
+    turnOn: `turnOn(attributes?: LightTurnOnAttributes) { return callService("${HAEntityTypes.light}", "turn_on", attributes || {}, {entity_id: "${entity.entity_id.split('.')[1]}"})}`,
     turnOff: `turnOff() { return callService("${HAEntityTypes.light}", "turn_off", {}, {entity_id: "${entity.entity_id.split('.')[1]}"})}`,
-    toggle: `toggle(attributes: LightTurnOnAttributes) { return callService("${HAEntityTypes.light}", "toggle", attributes || {}, {entity_id: "${entity.entity_id.split('.')[1]}"})}`,
+    toggle: `toggle(attributes?: LightTurnOnAttributes) { return callService("${HAEntityTypes.light}", "toggle", attributes || {}, {entity_id: "${entity.entity_id.split('.')[1]}"})}`,
   }
 }
 
