@@ -1,6 +1,6 @@
 import { HAEntityTypes } from "../ha-types";
 import { alarmControlPanelHandler, writeAlarmControlPanel } from "./handlers/alarm_control_panel";
-import { airQualityHandler } from "./handlers/air_quality";
+import { airQualityHandler, writeAirQuality } from "./handlers/air_quality";
 import { binarySensorHandler, writeBinarySensors } from "./handlers/binary_sensor";
 import { buttonHandler, writeButton } from "./handlers/button";
 import { HassEntity } from "home-assistant-js-websocket";
@@ -75,6 +75,7 @@ const generateEntities: GenerateEntities = async ({ config: { path, states } }) 
   })
 
   await writeAlarmControlPanel(`${path}/${HAEntityTypes.alarm_control_panel}.ts`)
+  await writeAirQuality(`${path}/${HAEntityTypes.air_quality}.ts`)
   await writeBinarySensors(`${path}/${HAEntityTypes.binary_sensor}.ts`)
   await writeButton(`${path}/${HAEntityTypes.button}.ts`)
   await writeCalendar(`${path}/${HAEntityTypes.calendar}.ts`)

@@ -28,6 +28,6 @@ ${Object.entries(air_quality).reduce((acc, [key, value]) => `${acc}
 }
 `
 
-export const writeAlarmControlPanel = async(path:string) => {
+export const writeAirQuality = async(path:string) => {
   await outputFile(path, getFile())
 }
