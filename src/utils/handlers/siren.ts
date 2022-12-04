@@ -15,7 +15,7 @@ export const sirenHandler = (entity: {entity_id:string}) =>{
   siren[entity.entity_id.split('.')[1]] = {
     entity_id: `entity_id: "${entity.entity_id}"`,
     entity: `get entity() { return {state: shadowState["${entity.entity_id}"].state, attributes: shadowState["${entity.entity_id}"].attributes} as SirenProperties}`,
-    turnOn: `turnOn(attributes: SirenTurnOnAttributes) { return callService("${HAEntityTypes.siren}", "turn_on", attributes, {entity_id: "${entity.entity_id.split('.')[1]}"})}`,
+    turnOn: `turnOn(attributes: SirenTurnOnAttributes) { return callService("${HAEntityTypes.siren}", "turn_on", attributes, {entity_id: "${entity.entity_id}"})}`,
     turnOff: `turnOff() { return callService("${HAEntityTypes.siren}", "turn_off", {}, {entity_id: "${entity.entity_id.split('.')[1]}"})}`,
   }
 }

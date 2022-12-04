@@ -15,12 +15,12 @@ export const remoteHandler = (entity: {entity_id:string}) =>{
   remote[entity.entity_id.split('.')[1]] = {
     entity_id: `entity_id: "${entity.entity_id}"`,
     entity: `get entity() { return {state: shadowState["${entity.entity_id}"].state, attributes: shadowState["${entity.entity_id}"].attributes} as RemoteProperties}`,
-    turnOn: `turnOn() { return callService("${HAEntityTypes.remote}", "turn_on", {}, {entity_id: "${entity.entity_id.split('.')[1]}"})}`,
-    turnOff: `turnOff() { return callService("${HAEntityTypes.remote}", "turn_off", {}, {entity_id: "${entity.entity_id.split('.')[1]}"})}`,
-    sendCommand: `sendCommand(command: string|string[]) { return callService("${HAEntityTypes.remote}", "send_command", {command}, {entity_id: "${entity.entity_id.split('.')[1]}"})}`,
-    learnCommand: `learnCommand(attributes: {command: string, timeout:number}) { return callService("${HAEntityTypes.remote}", "press", attributes, {entity_id: "${entity.entity_id.split('.')[1]}"})}`,
-    toggle: `toggle() { return callService("${HAEntityTypes.remote}", "toggle", {}, {entity_id: "${entity.entity_id.split('.')[1]}"})}`,
-    deleteCommand: `deleteCommand(command:string) { return callService("${HAEntityTypes.remote}", "delete_command", {command}, {entity_id: "${entity.entity_id.split('.')[1]}"})}`,
+    turnOn: `turnOn() { return callService("${HAEntityTypes.remote}", "turn_on", {}, {entity_id: "${entity.entity_id}"})}`,
+    turnOff: `turnOff() { return callService("${HAEntityTypes.remote}", "turn_off", {}, {entity_id: "${entity.entity_id}"})}`,
+    sendCommand: `sendCommand(command: string|string[]) { return callService("${HAEntityTypes.remote}", "send_command", {command}, {entity_id: "${entity.entity_id}"})}`,
+    learnCommand: `learnCommand(attributes: {command: string, timeout:number}) { return callService("${HAEntityTypes.remote}", "press", attributes, {entity_id: "${entity.entity_id}"})}`,
+    toggle: `toggle() { return callService("${HAEntityTypes.remote}", "toggle", {}, {entity_id: "${entity.entity_id}"})}`,
+    deleteCommand: `deleteCommand(command:string) { return callService("${HAEntityTypes.remote}", "delete_command", {command}, {entity_id: "${entity.entity_id}"})}`,
   }
 }
 

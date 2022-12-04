@@ -15,8 +15,8 @@ export const humidifierHandler = (entity: {entity_id:string}) =>{
   humidifier[entity.entity_id.split('.')[1]] = {
     entity_id: `entity_id: "${entity.entity_id}"`,
     entity: `get entity() { return {state: shadowState["${entity.entity_id}"].state, attributes: shadowState["${entity.entity_id}"].attributes} as HumidifierProperties}`,
-    turnOn: `turnOn() { return callService("${HAEntityTypes.humidifier}", "turn_on", {}, {entity_id: "${entity.entity_id.split('.')[1]}"})}`,
-    turnOff: `turnOff() { return callService("${HAEntityTypes.humidifier}", "turn_off", {}, {entity_id: "${entity.entity_id.split('.')[1]}"})}`,
+    turnOn: `turnOn() { return callService("${HAEntityTypes.humidifier}", "turn_on", {}, {entity_id: "${entity.entity_id}"})}`,
+    turnOff: `turnOff() { return callService("${HAEntityTypes.humidifier}", "turn_off", {}, {entity_id: "${entity.entity_id}"})}`,
   }
 }
 

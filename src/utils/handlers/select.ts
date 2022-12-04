@@ -15,7 +15,7 @@ export const selectHandler = (entity: {entity_id:string}) =>{
   select[entity.entity_id.split('.')[1]] = {
     entity_id: `entity_id: "${entity.entity_id}"`,
     entity: `get entity() { return {state: shadowState["${entity.entity_id}"].state, attributes: shadowState["${entity.entity_id}"].attributes} as SelectProperties}`,
-    selectOption: `selectOption(option:string) { return callService("${HAEntityTypes.select}", "select_option", {option}, {entity_id: "${entity.entity_id.split('.')[1]}"})}`,
+    selectOption: `selectOption(option:string) { return callService("${HAEntityTypes.select}", "select_option", {option}, {entity_id: "${entity.entity_id}"})}`,
   }
 }
 

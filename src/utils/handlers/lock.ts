@@ -15,9 +15,9 @@ export const lockHandler = (entity: {entity_id:string}) =>{
   lock[entity.entity_id.split('.')[1]] = {
     entity_id: `entity_id: "${entity.entity_id}"`,
     entity: `get entity() { return {state: shadowState["${entity.entity_id}"].state, attributes: shadowState["${entity.entity_id}"].attributes} as LockProperties}`,
-    lock: `lock() { return callService("${HAEntityTypes.lock}", "lock", {}, {entity_id: "${entity.entity_id.split('.')[1]}"})}`,
-    unlock: `unlock() { return callService("${HAEntityTypes.lock}", "unlock", {}, {entity_id: "${entity.entity_id.split('.')[1]}"})}`,
-    open: `open() { return callService("${HAEntityTypes.lock}", "open", {}, {entity_id: "${entity.entity_id.split('.')[1]}"})}`,
+    lock: `lock() { return callService("${HAEntityTypes.lock}", "lock", {}, {entity_id: "${entity.entity_id}"})}`,
+    unlock: `unlock() { return callService("${HAEntityTypes.lock}", "unlock", {}, {entity_id: "${entity.entity_id}"})}`,
+    open: `open() { return callService("${HAEntityTypes.lock}", "open", {}, {entity_id: "${entity.entity_id}"})}`,
   }
 }
 

@@ -15,11 +15,11 @@ export const media_playerHandler = (entity: {entity_id:string}) =>{
   media_player[entity.entity_id.split('.')[1]] = {
     entity_id: `entity_id: "${entity.entity_id}"`,
     entity: `get entity() { return {state: shadowState["${entity.entity_id}"].state, attributes: shadowState["${entity.entity_id}"].attributes} as MediaPlayerProperties}`,
-    turnOn: `turnOn() { return callService("${HAEntityTypes.media_player}", "turn_on", {}, {entity_id: "${entity.entity_id.split('.')[1]}"})}`,
-    turnOff: `turnOff() { return callService("${HAEntityTypes.media_player}", "turn_off", {}, {entity_id: "${entity.entity_id.split('.')[1]}"})}`,
-    playMedia: `playMedia(media:Media) { return callService("${HAEntityTypes.media_player}", "play_media", media, {entity_id: "${entity.entity_id.split('.')[1]}"})}`,
-    selectSource: `selectSource(source:string) { return callService("${HAEntityTypes.media_player}", "select_sound", {source}, {entity_id: "${entity.entity_id.split('.')[1]}"})}`,
-    selectSoundMode: `selectSoundMode(sound_mode:string) { return callService("${HAEntityTypes.media_player}", "select_sound_mode", {}, {entity_id: "${entity.entity_id.split('.')[1]}"})}`,
+    turnOn: `turnOn() { return callService("${HAEntityTypes.media_player}", "turn_on", {}, {entity_id: "${entity.entity_id}"})}`,
+    turnOff: `turnOff() { return callService("${HAEntityTypes.media_player}", "turn_off", {}, {entity_id: "${entity.entity_id}"})}`,
+    playMedia: `playMedia(media:Media) { return callService("${HAEntityTypes.media_player}", "play_media", media, {entity_id: "${entity.entity_id}"})}`,
+    selectSource: `selectSource(source:string) { return callService("${HAEntityTypes.media_player}", "select_sound", {source}, {entity_id: "${entity.entity_id}"})}`,
+    selectSoundMode: `selectSoundMode(sound_mode:string) { return callService("${HAEntityTypes.media_player}", "select_sound_mode", {}, {entity_id: "${entity.entity_id}"})}`,
   }
 }
 

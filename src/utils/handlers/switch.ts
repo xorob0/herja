@@ -15,9 +15,9 @@ export const switchesHandler = (entity: {entity_id:string}) =>{
   switches[entity.entity_id.split('.')[1]] = {
     entity_id: `entity_id: "${entity.entity_id}"`,
     entity: `get entity() { return {state: SwitchStateMapper[shadowState["${entity.entity_id}"].state as string], attributes: shadowState["${entity.entity_id}"].attributes} as SwitchProperties}`,
-    turnOff: `turnOff() { return callService("${HAEntityTypes.switch}", "turn_off", {}, {entity_id: "${entity.entity_id.split('.')[1]}"})}`,
-    turnOn: `turnOn() { return callService("${HAEntityTypes.switch}", "turn_on", {}, {entity_id: "${entity.entity_id.split('.')[1]}"})}`,
-    toggle: `toggle() { return callService("${HAEntityTypes.switch}", "toggle", {}, {entity_id: "${entity.entity_id.split('.')[1]}"})}`,
+    turnOff: `turnOff() { return callService("${HAEntityTypes.switch}", "turn_off", {}, {entity_id: "${entity.entity_id}"})}`,
+    turnOn: `turnOn() { return callService("${HAEntityTypes.switch}", "turn_on", {}, {entity_id: "${entity.entity_id}"})}`,
+    toggle: `toggle() { return callService("${HAEntityTypes.switch}", "toggle", {}, {entity_id: "${entity.entity_id}"})}`,
     isOn: `isOn() { return shadowState["${entity.entity_id}"].state === "on" }`,
   }
 }

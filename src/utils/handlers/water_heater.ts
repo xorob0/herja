@@ -15,10 +15,10 @@ export const water_heaterHandler = (entity: {entity_id:string}) =>{
   water_heater[entity.entity_id.split('.')[1]] = {
     entity_id: `entity_id: "${entity.entity_id}"`,
     entity: `get entity() { return {state: shadowState["${entity.entity_id}"].state, attributes: shadowState["${entity.entity_id}"].attributes} as WaterHeaterProperties}`,
-    setOperationMode: `setOperationMode(operation_mode:string) { return callService("${HAEntityTypes.water_heater}", "set_operation_mode", {operation_mode}, {entity_id: "${entity.entity_id.split('.')[1]}"})}`,
-    setTemperature: `setTemperature(temperature: number) { return callService("${HAEntityTypes.water_heater}", "set_temperature", {temperature}, {entity_id: "${entity.entity_id.split('.')[1]}"})}`,
-    turnOffAwayMode: `turnOffAwayMode() { return callService("${HAEntityTypes.water_heater}", "turn_off_away_mode", {}, {entity_id: "${entity.entity_id.split('.')[1]}"})}`,
-    turnOnAwayMode: `turnOnAwayMode() { return callService("${HAEntityTypes.water_heater}", "turn_on_away_mode", {}, {entity_id: "${entity.entity_id.split('.')[1]}"})}`,
+    setOperationMode: `setOperationMode(operation_mode:string) { return callService("${HAEntityTypes.water_heater}", "set_operation_mode", {operation_mode}, {entity_id: "${entity.entity_id}"})}`,
+    setTemperature: `setTemperature(temperature: number) { return callService("${HAEntityTypes.water_heater}", "set_temperature", {temperature}, {entity_id: "${entity.entity_id}"})}`,
+    turnOffAwayMode: `turnOffAwayMode() { return callService("${HAEntityTypes.water_heater}", "turn_off_away_mode", {}, {entity_id: "${entity.entity_id}"})}`,
+    turnOnAwayMode: `turnOnAwayMode() { return callService("${HAEntityTypes.water_heater}", "turn_on_away_mode", {}, {entity_id: "${entity.entity_id}"})}`,
   }
 }
 

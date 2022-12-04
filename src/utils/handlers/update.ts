@@ -15,7 +15,7 @@ export const updateHandler = (entity: {entity_id:string}) =>{
   update[entity.entity_id.split('.')[1]] = {
     entity_id: `entity_id: "${entity.entity_id}"`,
     entity: `get entity() { return {state: shadowState["${entity.entity_id}"].state, attributes: shadowState["${entity.entity_id}"].attributes} as UpdateProperties}`,
-    install: `install(attributes: UpdateInstallAttributes) { return callService("${HAEntityTypes.update}", "install", attributes, {entity_id: "${entity.entity_id.split('.')[1]}"})}`,
+    install: `install(attributes: UpdateInstallAttributes) { return callService("${HAEntityTypes.update}", "install", attributes, {entity_id: "${entity.entity_id}"})}`,
   }
 }
 

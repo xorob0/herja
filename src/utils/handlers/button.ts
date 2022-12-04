@@ -15,7 +15,7 @@ export const buttonHandler = (entity: {entity_id:string}) =>{
   button[entity.entity_id.split('.')[1]] = {
     entity_id: `entity_id: "${entity.entity_id}"`,
     entity: `get entity() { return {state: shadowState["${entity.entity_id}"].state, attributes: shadowState["${entity.entity_id}"].attributes} as ButtonProperties}`,
-    press: `press() { return callService("${HAEntityTypes.button}", "press", {}, {entity_id: "${entity.entity_id.split('.')[1]}"})}`,
+    press: `press() { return callService("${HAEntityTypes.button}", "press", {}, {entity_id: "${entity.entity_id}"})}`,
   }
 }
 

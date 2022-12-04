@@ -14,10 +14,10 @@ export const cameraHandler = (entity: {entity_id:string}) =>{
   camera[entity.entity_id.split('.')[1]] = {
     entity_id: `entity_id: "${entity.entity_id}"`,
     entity: `get entity() { return {state: shadowState["${entity.entity_id}"].state, attributes: shadowState["${entity.entity_id}"].attributes} as CameraProperties}`,
-    turnOn: `turnOn() { return callService("${HAEntityTypes.camera}", "turn_on", {}, {entity_id: "${entity.entity_id.split('.')[1]}"})}`,
-    turnOff: `turnOff() { return callService("${HAEntityTypes.camera}", "turn_off", {}, {entity_id: "${entity.entity_id.split('.')[1]}"})}`,
-    enableMotionDetection: `enableMotionDetection() { return callService("${HAEntityTypes.camera}", "enable_motion_detection", {}, {entity_id: "${entity.entity_id.split('.')[1]}"})}`,
-    disableMotionDetection: `disableMotionDetection() { return callService("${HAEntityTypes.camera}", "enable_motion_detection", {}, {entity_id: "${entity.entity_id.split('.')[1]}"})}`,
+    turnOn: `turnOn() { return callService("${HAEntityTypes.camera}", "turn_on", {}, {entity_id: "${entity.entity_id}"})}`,
+    turnOff: `turnOff() { return callService("${HAEntityTypes.camera}", "turn_off", {}, {entity_id: "${entity.entity_id}"})}`,
+    enableMotionDetection: `enableMotionDetection() { return callService("${HAEntityTypes.camera}", "enable_motion_detection", {}, {entity_id: "${entity.entity_id}"})}`,
+    disableMotionDetection: `disableMotionDetection() { return callService("${HAEntityTypes.camera}", "enable_motion_detection", {}, {entity_id: "${entity.entity_id}"})}`,
   }
 }
 
