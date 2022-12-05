@@ -35,5 +35,8 @@ ${Object.entries(media_player).reduce((acc, [key, value]) => `${acc}
 `
 
 export const writeMediaPlayer = async(path:string) => {
+  if(Object.keys(media_player).length === 0) {
+    return
+  }
   await outputFile(path, getFile())
 }

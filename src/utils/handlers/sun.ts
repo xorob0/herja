@@ -6,7 +6,7 @@ import { outputFile } from 'fs-extra';
 
 export const sun: Record<string,KeyOfAsString<SunEntity>> = {}
 
-export const getImportString =  () => `import {callService, shadowState, Sun, SunProperties} from "@herja/core"
+export const getImportString =  () => `import {shadowState, Sun, SunProperties} from "@herja/core"
 export type SunIDs = "${Object.keys(sun).join('" | "')}"
 export type SunEntities = Record<SunIDs, Sun>`
 
@@ -31,5 +31,8 @@ ${Object.entries(sun).reduce((acc, [key, value]) => `${acc}
 `
 
 export const writeSun = async(path:string) => {
+  if(Object.keys(sun).length === 0) {
+    return
+  }
   await outputFile(path, getFile())
 }

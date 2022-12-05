@@ -32,5 +32,8 @@ ${Object.entries(siren).reduce((acc, [key, value]) => `${acc}
 `
 
 export const writeSiren = async(path:string) => {
+  if(Object.keys(siren).length === 0) {
+    return
+  }
   await outputFile(path, getFile())
 }

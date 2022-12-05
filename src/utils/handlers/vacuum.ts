@@ -37,5 +37,8 @@ ${Object.entries(vacuum).reduce((acc, [key, value]) => `${acc}
 `
 
 export const writeVacuum = async(path:string) => {
+  if(Object.keys(vacuum).length === 0) {
+    return
+  }
   await outputFile(path, getFile())
 }

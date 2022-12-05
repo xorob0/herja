@@ -33,5 +33,8 @@ ${Object.entries(camera).reduce((acc, [key, value]) => `${acc}
 `
 
 export const writeCamera = async(path:string) => {
+  if(Object.keys(camera).length === 0) {
+    return
+  }
   await outputFile(path, getFile())
 }

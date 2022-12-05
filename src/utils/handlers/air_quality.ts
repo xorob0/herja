@@ -29,5 +29,8 @@ ${Object.entries(air_quality).reduce((acc, [key, value]) => `${acc}
 `
 
 export const writeAirQuality = async(path:string) => {
+  if(Object.keys(air_quality).length === 0) {
+    return
+  }
   await outputFile(path, getFile())
 }

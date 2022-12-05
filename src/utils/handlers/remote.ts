@@ -36,5 +36,8 @@ ${Object.entries(remote).reduce((acc, [key, value]) => `${acc}
 `
 
 export const writeRemote = async(path:string) => {
+  if(Object.keys(remote).length === 0) {
+    return
+  }
   await outputFile(path, getFile())
 }

@@ -6,7 +6,7 @@ import { outputFile } from 'fs-extra';
 
 export const device_tracker: Record<string,KeyOfAsString<DeviceTrackerEntity>> = {}
 
-export const getImportString =  () => `import {callService, shadowState, DeviceTracker, DeviceTrackerProperties} from "@herja/core"
+export const getImportString =  () => `import {shadowState, DeviceTracker, DeviceTrackerProperties} from "@herja/core"
 export type DeviceTrackerIDs = "${Object.keys(device_tracker).join('" | "')}"
 export type DeviceTrackerEntities = Record<DeviceTrackerIDs, DeviceTracker>`
 
@@ -30,5 +30,8 @@ ${Object.entries(device_tracker).reduce((acc, [key, value]) => `${acc}
 `
 
 export const writeDeviceTracker = async(path:string) => {
+  if(Object.keys(device_tracker).length === 0) {
+    return
+  }
   await outputFile(path, getFile())
 }

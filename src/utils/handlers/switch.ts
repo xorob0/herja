@@ -34,5 +34,8 @@ ${Object.entries(switches).reduce((acc, [key, value]) => `${acc}
 `
 
 export const writeSwitch = async(path:string) => {
+  if(Object.keys(switches).length === 0) {
+    return
+  }
   await outputFile(path, getFile())
 }

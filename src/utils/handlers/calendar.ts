@@ -29,5 +29,8 @@ ${Object.entries(calendar).reduce((acc, [key, value]) => `${acc}
 `
 
 export const writeCalendar = async(path:string) => {
+  if(Object.keys(calendar).length === 0) {
+    return
+  }
   await outputFile(path, getFile())
 }

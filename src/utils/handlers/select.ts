@@ -31,5 +31,8 @@ ${Object.entries(select).reduce((acc, [key, value]) => `${acc}
 `
 
 export const writeSelect = async(path:string) => {
+  if(Object.keys(select).length === 0) {
+    return
+  }
   await outputFile(path, getFile())
 }

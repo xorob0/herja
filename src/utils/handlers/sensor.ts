@@ -29,5 +29,8 @@ ${Object.entries(sensor).reduce((acc, [key, value]) => `${acc}
 `
 
 export const writeSensor = async(path:string) => {
+  if(Object.keys(sensor).length === 0) {
+    return
+  }
   await outputFile(path, getFile())
 }

@@ -2,6 +2,7 @@ import {eventListener, StateChangeEvent, stateListener} from './connexion';
 import {HassEntity, HassServiceTarget} from "home-assistant-js-websocket";
 import {isString} from "./utils/isString";
 import {isRegExp} from "util/types";
+import cron from 'node-cron';
 
 type Dependency = | RegExp
     | ((event: StateChangeEvent) => boolean)
@@ -10,15 +11,24 @@ type Dependency = | RegExp
     | string
     | {eventType?:string}
 
-type Effect = (callback: (event: StateChangeEvent) => void|Promise<void>, dependencies:Dependency[]) => void
+type Effect = (callback: (event?: StateChangeEvent) => void|Promise<void>, dependencies:Dependency[]) => void
+
+const isCronString = (str: string) => {
+  return str.split(' ').length === 5
+}
 
 //TODO add timer support and cron support
 export const effect: Effect = (callback, dependencies) =>{
   dependencies.forEach(dependency => {
     if(isString(dependency)){
-      stateListener((event) => {
-        if (event.data.entity_id === dependency) callback(event);
-      });
+      if(isCronString(dependency)){
+        cron.schedule(dependency, ()=>callback())
+      }
+      else{
+        stateListener((event) => {
+          if (event.data.entity_id === dependency) callback(event);
+        });
+      }
     }
     else if(isRegExp(dependency)){
       stateListener((event) => {

@@ -40,5 +40,8 @@ ${Object.entries(alarm_control_panel).reduce((acc, [key, value]) => `${acc}
 `
 
 export const writeAlarmControlPanel = async(path:string) => {
+  if(Object.keys(alarm_control_panel).length === 0) {
+    return
+  }
   await outputFile(path, getFile())
 }

@@ -65,5 +65,8 @@ ${Object.entries(climate).reduce((acc, [key, value]) => `${acc}
 `
 
 export const writeClimate = async(path:string) => {
+  if(Object.keys(climate).length === 0) {
+    return
+  }
   await outputFile(path, getFile())
 }

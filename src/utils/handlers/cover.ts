@@ -40,5 +40,8 @@ ${Object.entries(cover).reduce((acc, [key, value]) => `${acc}
 `
 
 export const writeCover = async(path:string) => {
+  if(Object.keys(cover).length === 0) {
+    return
+  }
   await outputFile(path, getFile())
 }

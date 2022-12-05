@@ -36,5 +36,8 @@ ${Object.entries(fan).reduce((acc, [key, value]) => `${acc}
 `
 
 export const writeFan = async(path:string) => {
+  if(Object.keys(fan).length === 0) {
+    return
+  }
   await outputFile(path, getFile())
 }

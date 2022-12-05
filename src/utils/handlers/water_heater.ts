@@ -34,5 +34,8 @@ ${Object.entries(water_heater).reduce((acc, [key, value]) => `${acc}
 `
 
 export const writeWaterHeater = async(path:string) => {
+  if(Object.keys(water_heater).length === 0) {
+    return
+  }
   await outputFile(path, getFile())
 }

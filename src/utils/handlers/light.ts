@@ -33,5 +33,8 @@ ${Object.entries(light).reduce((acc, [key, value]) => `${acc}
 `
 
 export const writeLight = async(path:string) => {
+  if(Object.keys(light).length === 0) {
+    return
+  }
   await outputFile(path, getFile())
 }

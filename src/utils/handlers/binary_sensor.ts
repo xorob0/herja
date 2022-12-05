@@ -31,5 +31,8 @@ ${Object.entries(binary_sensor).reduce((acc, [key, value]) => `${acc}
 `
 
 export const writeBinarySensors = async(path:string) => {
+  if(Object.keys(binary_sensor).length === 0) {
+    return
+  }
   await outputFile(path, getFile())
 }

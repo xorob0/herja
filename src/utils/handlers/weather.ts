@@ -29,5 +29,8 @@ ${Object.entries(weather).reduce((acc, [key, value]) => `${acc}
 `
 
 export const writeWeather = async(path:string) => {
+  if(Object.keys(weather).length === 0) {
+    return
+  }
   await outputFile(path, getFile())
 }

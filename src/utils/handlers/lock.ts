@@ -33,5 +33,8 @@ ${Object.entries(lock).reduce((acc, [key, value]) => `${acc}
 `
 
 export const writeLock = async(path:string) => {
+  if(Object.keys(lock).length === 0) {
+    return
+  }
   await outputFile(path, getFile())
 }

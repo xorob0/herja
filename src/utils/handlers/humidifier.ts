@@ -32,5 +32,8 @@ ${Object.entries(humidifier).reduce((acc, [key, value]) => `${acc}
 `
 
 export const writeHumidifier = async(path:string) => {
+  if(Object.keys(humidifier).length === 0) {
+    return
+  }
   await outputFile(path, getFile())
 }

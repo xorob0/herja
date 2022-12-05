@@ -31,5 +31,8 @@ ${Object.entries(update).reduce((acc, [key, value]) => `${acc}
 `
 
 export const writeUpdate = async(path:string) => {
+  if(Object.keys(update).length === 0) {
+    return
+  }
   await outputFile(path, getFile())
 }

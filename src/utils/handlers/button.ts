@@ -31,5 +31,8 @@ ${Object.entries(button).reduce((acc, [key, value]) => `${acc}
 `
 
 export const writeButton = async(path:string) => {
+  if(Object.keys(button).length === 0) {
+    return
+  }
   await outputFile(path, getFile())
 }
