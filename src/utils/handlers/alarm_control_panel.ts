@@ -22,9 +22,9 @@ export const alarmControlPanelHandler = (entity: {entity_id:string}) =>{
     armHome: `armHome(options?: ArmingOptions, serviceData?: Record<string, any>) { return callService("${HAEntityTypes.alarm_control_panel}", "alarm_arm_home", {code: process?.env?.ALARM_CODE, ...serviceData}, {entity_id: "${entity.entity_id}"})}`,
     armNight: `armNight(options?: ArmingOptions, serviceData?: Record<string, any>) { return callService("${HAEntityTypes.alarm_control_panel}", "alarm_arm_night", {code: process?.env?.ALARM_CODE, ...serviceData}, {entity_id: "${entity.entity_id}"})}`,
     armVacation: `armVacation(options?: ArmingOptions, serviceData?: Record<string, any>) { return callService("${HAEntityTypes.alarm_control_panel}", "alarm_arm_vacation", {code: process?.env?.ALARM_CODE, ...serviceData}, {entity_id: "${entity.entity_id}"})}`,
-    armCustomBypass: `armCustomBypass(options?: ArmingOptions, serviceData?: Record<string, any>) { return callService("${HAEntityTypes.alarm_control_panel}", "alarm_arm_vacation", {code: process?.env?.ALARM_CODE, ...serviceData}, {entity_id: "${entity.entity_id}"})}`,
-    trigger: `trigger(serviceData?: Record<string, any>) { return callService("${HAEntityTypes.alarm_control_panel}", "trigger", {code: process?.env?.ALARM_CODE, ...serviceData}, {entity_id: "${entity.entity_id}"})}`,
-    disarm: `disarm(serviceData?: Record<string, any>) { return callService("${HAEntityTypes.alarm_control_panel}", "disarm", {code: process?.env?.ALARM_CODE, ...serviceData}, {entity_id: "${entity.entity_id}"})}`,
+    armCustomBypass: `armCustomBypass(options?: ArmingOptions, serviceData?: Record<string, any>) { return callService("${HAEntityTypes.alarm_control_panel}", "alarm_custom_bypass", {code: process?.env?.ALARM_CODE, ...serviceData}, {entity_id: "${entity.entity_id}"})}`,
+    trigger: `trigger(serviceData?: Record<string, any>) { return callService("${HAEntityTypes.alarm_control_panel}", "alarm_trigger", {code: process?.env?.ALARM_CODE, ...serviceData}, {entity_id: "${entity.entity_id}"})}`,
+    disarm: `disarm(serviceData?: Record<string, any>) { return callService("${HAEntityTypes.alarm_control_panel}", "alarm_disarm", {code: process?.env?.ALARM_CODE, ...serviceData}, {entity_id: "${entity.entity_id}"})}`,
   }
 }
 
