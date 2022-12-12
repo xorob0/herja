@@ -31,6 +31,7 @@ export type VacuumEntity = {
     turnOff: ()=> void,
     returnToBase: ()=> void,
     stop: ()=> void,
+    start: ()=> void,
     locate: ()=> void,
     setFanSpeed: (fan_speed: string)=> void,
     sendCommand: (command: string)=> void,

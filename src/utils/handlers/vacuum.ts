@@ -19,6 +19,7 @@ export const vacuumHandler = (entity: {entity_id:string}) =>{
     turnOff: `turnOff() { return callService("${HAEntityTypes.vacuum}", "turn_off", {}, {entity_id: "${entity.entity_id}"})}`,
     returnToBase: `returnToBase() { return callService("${HAEntityTypes.vacuum}", "return_to_base", {}, {entity_id: "${entity.entity_id}"})}`,
     locate: `locate() { return callService("${HAEntityTypes.vacuum}", "locate", {}, {entity_id: "${entity.entity_id}"})}`,
+    start: `start() { return callService("${HAEntityTypes.vacuum}", "start", {}, {entity_id: "${entity.entity_id}"})}`,
     stop: `stop() { return callService("${HAEntityTypes.vacuum}", "stop", {}, {entity_id: "${entity.entity_id}"})}`,
     sendCommand: `sendCommand(command:string) { return callService("${HAEntityTypes.vacuum}", "send_command", {command}, {entity_id: "${entity.entity_id}"})}`,
     setFanSpeed: `setFanSpeed(fan_speed: string) { return callService("${HAEntityTypes.vacuum}", "set_fan_speed", {fan_speed}, {entity_id: "${entity.entity_id}"})}`,
