@@ -196,7 +196,14 @@ export const connect = async ({
   });
 
   callService = (domain, service, serviceData, target) => {
-    return cs(connection, domain, service, serviceData, target);
+    try{
+      return cs(connection, domain, service, serviceData, target)
+    }
+    catch(e){
+      console.log("[callService error]: error calling service with ", domain, service, serviceData, target)
+      console.log("[callService error]:", e)
+      return Promise.reject(e)
+    }
   };
 
   stateListener = (callback) => {
