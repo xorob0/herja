@@ -7,20 +7,20 @@ import { outputFile } from 'fs-extra';
 
 export const fan: Record<string,KeyOfAsString<FanEntity>> = {}
 
-export const getImportString =  () => `import {callService, shadowState, Fan, FanProperties} from "@herja/core"
+export const getImportString =  () => `import {callService, shadowState, Fan, FanProperties, FanStateMapper} from "@herja/core"
 export type FanIDs = "${Object.keys(fan).join('" | "')}"
 export type FanEntities = Record<FanIDs, Fan>`
 
 export const fanHandler = (entity: {entity_id:string}) =>{
   fan[entity.entity_id.split('.')[1]] = {
     entity_id: `entity_id: "${entity.entity_id}"`,
-    entity: `get entity() { return {state: shadowState["${entity.entity_id}"].state, attributes: shadowState["${entity.entity_id}"].attributes} as FanProperties}`,
+    entity: `get entity() { return {state: FanStateMapper[shadowState["${entity.entity_id}"].state as string], attributes: shadowState["${entity.entity_id}"].attributes} as FanProperties}`,
     setDirection: `setDirection(direction:string) { return callService("${HAEntityTypes.fan}", "set_direction", {direction}, {entity_id: "${entity.entity_id}"})}`,
     setPresetMode: `setPresetMode(preset_mode:string) { return callService("${HAEntityTypes.fan}", "set_preset_mode", {preset_mode}, {entity_id: "${entity.entity_id}"})}`,
-    setSpeedPercentage: `setSpeedPercentage(percentage:string) { return callService("${HAEntityTypes.fan}", "set_percentage", {percentage}, {entity_id: "${entity.entity_id}"})}`,
+    setSpeedPercentage: `setSpeedPercentage(percentage:number) { return callService("${HAEntityTypes.fan}", "set_percentage", {percentage:percentage.toString()}, {entity_id: "${entity.entity_id}"})}`,
     turnOn: `turnOn() { return callService("${HAEntityTypes.fan}", "turn_on", {}, {entity_id: "${entity.entity_id}"})}`,
     turnOff: `turnOff() { return callService("${HAEntityTypes.fan}", "turn_off", {}, {entity_id: "${entity.entity_id}"})}`,
-    setOscillating: `setOscillating(oscillating:booleant) { return callService("${HAEntityTypes.fan}", "turn_off", {oscillating}, {entity_id: "${entity.entity_id}"})}`,
+    setOscillating: `setOscillating(oscillating:boolean) { return callService("${HAEntityTypes.fan}", "turn_off", {oscillating}, {entity_id: "${entity.entity_id}"})}`,
   }
 }
 

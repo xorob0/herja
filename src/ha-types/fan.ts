@@ -1,9 +1,13 @@
-import {HassEntity} from "home-assistant-js-websocket";
 import { HAEntityTypes } from "./entityTypes";
 
 export type FanEntityId = `${HAEntityTypes.fan}.${string}`
 
-export type FanProperties = HassEntity & {
+export const FanStateMapper:Record<string, boolean> = {
+  "on" : true,
+  "off" : false,
+}
+
+export type FanProperties = {
     state: boolean,
     attributes: {
         current_direction?: string,
@@ -12,8 +16,9 @@ export type FanProperties = HassEntity & {
         percentage: number,
         speed_count: number,
         supported_features: number,
-        preset_mode?: string,
-        preset_modes?: string[],
+        preset_mode: string,
+        preset_modes: string[],
+        [x:string]: string | boolean | undefined | string[] | number,
     }
 }
 
