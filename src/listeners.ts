@@ -21,6 +21,7 @@ const isCronString = (str: string) => {
 export const effect: Effect = (callback, dependencies) =>{
   dependencies.forEach(dependency => {
     if(!dependency) return;
+
     if(isString(dependency)){
       if(isCronString(dependency)){
         cron.schedule(dependency, ()=>callback())
