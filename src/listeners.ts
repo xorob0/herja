@@ -20,6 +20,7 @@ const isCronString = (str: string) => {
 //TODO add timer support and cron support
 export const effect: Effect = (callback, dependencies) =>{
   dependencies.forEach(dependency => {
+    if(!dependency) return;
     if(isString(dependency)){
       if(isCronString(dependency)){
         cron.schedule(dependency, ()=>callback())
